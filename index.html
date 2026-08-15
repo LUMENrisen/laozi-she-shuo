@@ -391,23 +391,6 @@
       gap: 8px;
     }
 
-    #reader-app .reader-header .back-btn {
-      background: transparent;
-      border: none;
-      color: #7a6b5e;
-      font-size: 14px;
-      cursor: pointer;
-      font-family: inherit;
-      padding: 4px 8px;
-      border-radius: 4px;
-      transition: background 0.2s;
-    }
-
-    #reader-app .reader-header .back-btn:hover {
-      background: #f5f0eb;
-      color: #2c241e;
-    }
-
     #reader-app .reader-header .reader-brand {
       font-size: 14px;
       font-weight: 500;
@@ -619,12 +602,16 @@
       margin: 36px 0;
     }
 
+    /* ===== 阅读器底部导航 ===== */
     #reader-nav {
       display: flex;
+      flex-wrap: wrap;
       justify-content: space-between;
+      align-items: center;
       margin-top: 48px;
       padding-top: 28px;
       border-top: 1px solid #ede8e2;
+      gap: 12px;
     }
 
     #reader-nav button {
@@ -647,6 +634,32 @@
     #reader-nav button:disabled {
       opacity: 0.25;
       cursor: not-allowed;
+    }
+
+    /* ===== 底部返回按钮 ===== */
+    .reader-back-home {
+      text-align: center;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid #ede8e2;
+    }
+
+    .reader-back-home button {
+      background: transparent;
+      border: 1px solid #d5cdc4;
+      padding: 8px 24px;
+      border-radius: 30px;
+      cursor: pointer;
+      font-size: 14px;
+      color: #7a6b5e;
+      transition: all 0.2s;
+      font-family: inherit;
+      letter-spacing: 1px;
+    }
+
+    .reader-back-home button:hover {
+      background: #ede8e2;
+      color: #2c241e;
     }
 
     /* ===== 微信弹窗 ===== */
@@ -823,11 +836,6 @@
       #reader-app .reader-header {
         padding: 8px 12px;
         min-height: 46px;
-      }
-
-      #reader-app .reader-header .back-btn {
-        font-size: 13px;
-        padding: 2px 6px;
       }
 
       #reader-app .reader-header .reader-brand {
@@ -1123,10 +1131,9 @@
         <span></span>
         <span></span>
       </button>
-      <button class="back-btn" id="backToHomeBtn">← 返回</button>
     </div>
     <span class="reader-brand">经典解毒 · 米饭视角</span>
-    <span style="width:80px;"></span>
+    <span style="width:40px;"></span>
   </div>
 
   <div class="reader-body">
@@ -1147,6 +1154,10 @@
       <div id="reader-nav">
         <button id="reader-prev" disabled>← 上一章</button>
         <button id="reader-next">下一章 →</button>
+      </div>
+      <!-- 底部返回按钮 -->
+      <div class="reader-back-home" id="readerBackHome">
+        <button id="backToHomeBtnBottom">← 返回首页</button>
       </div>
     </div>
   </div>
@@ -1248,7 +1259,10 @@ function closeReader() {
   document.getElementById('lockCard').scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
-document.getElementById('backToHomeBtn').addEventListener('click', closeReader);
+// 顶部返回按钮（保留向后兼容）
+document.getElementById('backToHomeBtn')?.addEventListener('click', closeReader);
+// 底部返回按钮
+document.getElementById('backToHomeBtnBottom')?.addEventListener('click', closeReader);
 
 // ============================================================
 // 3. 阅读器核心
