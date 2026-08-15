@@ -754,32 +754,80 @@
         margin-bottom: 28px;
       }
 
-      #reader-sidebar {
-        width: 100%;
-        min-width: unset;
-        height: auto;
-        max-height: 35vh;
-        border-right: none;
-        border-bottom: 1px solid #ede8e2;
-        padding: 16px;
-      }
+      /* ===== 阅读器 - 移动端优化 ===== */
+    #reader-sidebar {
+      width: 100%;
+      min-width: unset;
+      max-height: 45vh;          /* 从 35vh 增加到 45vh，目录显示更多 */
+      height: auto;
+      overflow-y: auto;          /* 确保目录可以滚动 */
+      border-right: none;
+      border-bottom: 1px solid #ede8e2;
+      padding: 12px 16px 16px;   /* 稍微减小内边距 */
+    }
 
-      #reader-app .reader-body {
-        flex-direction: column;
-        overflow-y: auto;
-      }
+    #reader-sidebar .toc-title {
+      font-size: 13px;           /* 目录标题缩小一点 */
+      margin-bottom: 10px;
+    }
 
-      #reader-content {
-        padding: 24px 20px 40px;
-        height: auto;
-        overflow-y: visible;
-      }
+    #reader-toc a {
+      font-size: 12px;           /* 目录条目缩小一点，显示更多行 */
+      padding: 4px 10px;
+    }
 
-      #reader-app .reader-header {
-        padding: 10px 16px;
-        flex-wrap: wrap;
-        gap: 8px;
-      }
+    #reader-app .reader-body {
+      flex-direction: column;
+      height: 100%;              /* 保证占满剩余高度 */
+      overflow-y: auto;
+    }
+
+    #reader-content {
+      padding: 16px 16px 40px;   /* 从 24px 20px 减小，整体更紧凑 */
+      height: auto;
+      overflow-y: visible;
+    }
+
+    #reader-content .chapter-title {
+      font-size: 1.4rem;         /* 标题稍微缩小 */
+    }
+
+    #reader-content .chapter-sub {
+      font-size: 0.85rem;        /* 副标题缩小 */
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+    }
+
+    #reader-content .markdown-body {
+      font-size: 15px;           /* 正文字体稍微调小，手机阅读更舒适 */
+      line-height: 1.8;
+    }
+
+    #reader-app .reader-header {
+      padding: 8px 12px;         /* 头部内边距减小 */
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+
+    #reader-app .reader-header .back-btn {
+      font-size: 13px;
+      padding: 2px 8px;
+    }
+
+    #reader-app .reader-header .reader-brand {
+      font-size: 12px;           /* 品牌文字缩小，避免挤占 */
+    }
+
+    #reader-nav {
+      margin-top: 32px;
+      padding-top: 16px;
+    }
+
+    #reader-nav button {
+      padding: 8px 16px;
+      font-size: 13px;
+    }
+  }
 
       .wechat-modal .modal-box {
         padding: 24px 20px 20px;
