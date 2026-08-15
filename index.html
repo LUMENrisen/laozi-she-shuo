@@ -1489,4 +1489,1607 @@ if (sessionStorage.getItem(STORAGE_KEY_VERIFIED) === 'true') {
 </script>
 
 </body>
+</html><!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>经典解毒 · 米饭视角读帛书老子</title>
+  <style>
+    /* ===== 全局重置 ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #f8f5f0;
+      color: #2c241e;
+      font-family: -apple-system, "PingFang SC", "Noto Serif SC", "宋体", serif;
+      line-height: 1.7;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 0;
+      padding: 40px 20px 60px;
+    }
+
+    .container {
+      max-width: 720px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    /* ===== 公开内容 ===== */
+    #public-content {
+      width: 100%;
+      transition: opacity 0.3s ease;
+    }
+    #public-content.hidden {
+      display: none;
+    }
+
+    .header {
+      text-align: center;
+      padding: 40px 0 32px;
+      border-bottom: 1px solid #ede8e2;
+      margin-bottom: 40px;
+    }
+
+    .brand {
+      font-size: 28px;
+      font-weight: 600;
+      letter-spacing: 6px;
+      color: #2c241e;
+      font-family: "Noto Serif SC", "宋体", serif;
+    }
+
+    .brand-desc {
+      font-size: 14px;
+      color: #b0a296;
+      letter-spacing: 2px;
+      margin-top: 6px;
+    }
+
+    .section {
+      background: #ffffff;
+      border-radius: 8px;
+      padding: 28px 32px;
+      margin-bottom: 24px;
+      border: 1px solid #ede8e2;
+    }
+
+    .section-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #2c241e;
+      letter-spacing: 2px;
+      margin-bottom: 6px;
+    }
+
+    .section-sub {
+      font-size: 13px;
+      color: #b0a296;
+      margin-bottom: 18px;
+      letter-spacing: 1px;
+      line-height: 1.8;
+    }
+
+    .section-sub .credit {
+      display: block;
+      margin-top: 6px;
+      font-size: 13px;
+      color: #7a6b5e;
+      letter-spacing: 0.5px;
+    }
+
+    /* ===== 朱邦復触发链接 ===== */
+    .zhubangfu-trigger {
+      color: #d4af37;
+      border-bottom: 1px dashed #d4af37;
+      padding-bottom: 1px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .zhubangfu-trigger:hover {
+      color: #b89a2a;
+    }
+
+    /* ===== 锁定卡片 ===== */
+    .lock-card {
+      background: #f5f0eb;
+      border-radius: 8px;
+      padding: 24px;
+      border: 1px solid #ede8e2;
+    }
+
+    .lock-card .lock-title {
+      font-weight: 600;
+      font-size: 16px;
+      color: #2c241e;
+      margin-bottom: 4px;
+    }
+
+    .lock-card .lock-desc {
+      font-size: 14px;
+      color: #7a6b5e;
+      margin-bottom: 16px;
+    }
+
+    .lock-card .password-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .lock-card input {
+      flex: 1;
+      min-width: 180px;
+      padding: 10px 14px;
+      border: 1px solid #d5cdc4;
+      border-radius: 4px;
+      font-size: 14px;
+      font-family: inherit;
+      background: #fff;
+      color: #2c241e;
+      outline: none;
+      transition: border-color 0.2s;
+      letter-spacing: 1px;
+    }
+
+    .lock-card input:focus {
+      border-color: #b0a296;
+    }
+
+    .lock-card .btn-primary {
+      padding: 10px 24px;
+      background: #2c241e;
+      color: #f8f5f0;
+      border: none;
+      border-radius: 4px;
+      font-size: 14px;
+      cursor: pointer;
+      font-family: inherit;
+      letter-spacing: 2px;
+      transition: background 0.2s;
+    }
+
+    .lock-card .btn-primary:hover {
+      background: #4a3f36;
+    }
+
+    .lock-card .password-error {
+      color: #d14c4c;
+      font-size: 13px;
+      margin-top: 10px;
+      display: none;
+    }
+
+    .lock-card .password-error.show {
+      display: block;
+    }
+
+    .lock-card .already-unlocked {
+      display: none;
+      color: #7a6b5e;
+      font-size: 14px;
+    }
+    .lock-card .already-unlocked.show {
+      display: block;
+    }
+    .lock-card .already-unlocked a {
+      color: #2c241e;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    .code-hint {
+      margin-top: 12px;
+      font-size: 13px;
+      color: #b0a296;
+      text-align: right;
+    }
+
+    .code-hint a {
+      color: #2c241e;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    /* ===== 公开内容条目 ===== */
+    .item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid #f0ece6;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .item:last-child {
+      border-bottom: none;
+    }
+
+    .item-label {
+      font-size: 15px;
+      color: #2c241e;
+      font-weight: 500;
+    }
+
+    .item-label .sub {
+      font-weight: 400;
+      font-size: 13px;
+      color: #b0a296;
+      margin-left: 6px;
+    }
+
+    .item-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 6px 16px;
+      border-radius: 4px;
+      font-size: 13px;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+      border: 1px solid #ede8e2;
+      background: #f8f5f0;
+      color: #2c241e;
+      font-family: inherit;
+      letter-spacing: 1px;
+    }
+
+    .btn:hover {
+      background: #ede8e2;
+      border-color: #d5cdc4;
+    }
+
+    .btn-outline {
+      background: transparent;
+      border-color: #2c241e;
+      color: #2c241e;
+    }
+
+    .btn-outline:hover {
+      background: #2c241e;
+      color: #f8f5f0;
+    }
+
+    .btn-pdf {
+      background: #e8e0d8;
+      border-color: #d5cdc4;
+      color: #2c241e;
+      font-size: 13px;
+      padding: 6px 16px;
+    }
+
+    .btn-pdf:hover {
+      background: #d5cdc4;
+    }
+
+    .ref-item {
+      font-size: 13px;
+      line-height: 2;
+      color: #4a3f36;
+    }
+
+    .ref-item a {
+      color: #7a6b5e;
+      text-decoration: none;
+      border-bottom: 1px dotted #d5cdc4;
+    }
+
+    .ref-item a:hover {
+      color: #2c241e;
+      border-bottom-color: #2c241e;
+    }
+
+    .ref-item .desc {
+      color: #b0a296;
+      font-size: 12px;
+    }
+
+    /* ===== 阅读器（全屏覆盖） ===== */
+    #reader-app {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: #f8f5f0;
+      z-index: 9998;
+      flex-direction: column;
+    }
+
+    #reader-app.active {
+      display: flex;
+    }
+
+    #reader-app .reader-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 16px;
+      background: #fff;
+      border-bottom: 1px solid #ede8e2;
+      flex-shrink: 0;
+      z-index: 10;
+      min-height: 52px;
+    }
+
+    #reader-app .reader-header .reader-header-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    #reader-app .reader-header .reader-brand {
+      font-size: 14px;
+      font-weight: 500;
+      color: #b0a296;
+      letter-spacing: 2px;
+    }
+
+    /* ===== 汉堡按钮 ===== */
+    .hamburger-btn {
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 24px;
+      height: 18px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      flex-shrink: 0;
+    }
+
+    .hamburger-btn span {
+      display: block;
+      width: 100%;
+      height: 2px;
+      background: #2c241e;
+      border-radius: 2px;
+      transition: all 0.25s ease;
+    }
+
+    .hamburger-btn.active span:nth-child(1) {
+      transform: translateY(8px) rotate(45deg);
+    }
+
+    .hamburger-btn.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .hamburger-btn.active span:nth-child(3) {
+      transform: translateY(-8px) rotate(-45deg);
+    }
+
+    /* ===== 侧边栏遮罩 ===== */
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.35);
+      z-index: 5;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .sidebar-overlay.active {
+      display: block;
+      opacity: 1;
+    }
+
+    /* ===== 目录侧边栏 ===== */
+    #reader-sidebar {
+      width: 280px;
+      min-width: 280px;
+      background: #ffffff;
+      border-right: 1px solid #ede8e2;
+      overflow-y: auto;
+      padding: 20px 16px 30px;
+      height: 100%;
+      flex-shrink: 0;
+      transition: transform 0.3s ease;
+    }
+
+    #reader-sidebar .toc-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #2c241e;
+      letter-spacing: 2px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #ede8e2;
+      margin-bottom: 14px;
+    }
+
+    #reader-toc {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    #reader-toc a {
+      display: block;
+      padding: 6px 12px;
+      color: #555;
+      text-decoration: none;
+      font-size: 13px;
+      border-radius: 4px;
+      transition: all 0.2s;
+      border-left: 2px solid transparent;
+    }
+
+    #reader-toc a:hover {
+      background: #f5f0eb;
+      color: #2c241e;
+    }
+
+    #reader-toc a.active {
+      background: #f5f0eb;
+      border-left-color: #b0a296;
+      color: #2c241e;
+      font-weight: 500;
+    }
+
+    #reader-toc .ch-num {
+      color: #b0a296;
+      font-size: 11px;
+      margin-right: 6px;
+      font-weight: 400;
+    }
+
+    #reader-app .reader-body {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+      position: relative;
+    }
+
+    #reader-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 40px 56px 60px;
+      max-width: 820px;
+      margin: 0 auto;
+      height: 100%;
+    }
+
+    #reader-content .chapter-title {
+      font-weight: 600;
+      font-size: 1.8rem;
+      color: #2c241e;
+      margin-bottom: 4px;
+      font-family: "Noto Serif SC", "宋体", serif;
+      letter-spacing: 2px;
+    }
+
+    #reader-content .chapter-sub {
+      color: #b0a296;
+      font-size: 0.95rem;
+      margin-bottom: 28px;
+      border-bottom: 1px solid #ede8e2;
+      padding-bottom: 18px;
+    }
+
+    #reader-content .markdown-body {
+      font-size: 16px;
+      line-height: 1.9;
+      color: #333;
+    }
+
+    #reader-content .markdown-body h2 {
+      font-size: 1.3rem;
+      margin: 32px 0 12px;
+      font-weight: 600;
+      color: #2c241e;
+    }
+
+    #reader-content .markdown-body h3 {
+      font-size: 1.1rem;
+      margin: 24px 0 8px;
+      font-weight: 600;
+      color: #4a3f36;
+    }
+
+    #reader-content .markdown-body p {
+      margin-bottom: 16px;
+    }
+
+    #reader-content .markdown-body blockquote {
+      border-left: 4px solid #d5cdc4;
+      padding-left: 20px;
+      color: #666;
+      margin: 20px 0;
+      font-style: italic;
+    }
+
+    #reader-content .markdown-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 18px 0;
+      font-size: 14px;
+    }
+
+    #reader-content .markdown-body th,
+    #reader-content .markdown-body td {
+      border: 1px solid #eee;
+      padding: 10px 14px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    #reader-content .markdown-body th {
+      background: #f8f5f2;
+      font-weight: 500;
+    }
+
+    #reader-content .markdown-body hr {
+      border: none;
+      border-top: 1px solid #ede8e2;
+      margin: 36px 0;
+    }
+
+    /* ===== 阅读器底部导航 ===== */
+    #reader-nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 48px;
+      padding-top: 28px;
+      border-top: 1px solid #ede8e2;
+      gap: 12px;
+    }
+
+    #reader-nav button {
+      background: #f5f0eb;
+      border: none;
+      padding: 10px 28px;
+      border-radius: 30px;
+      cursor: pointer;
+      font-size: 14px;
+      color: #2c241e;
+      transition: background 0.2s;
+      font-family: inherit;
+      letter-spacing: 1px;
+    }
+
+    #reader-nav button:hover {
+      background: #e8e0da;
+    }
+
+    #reader-nav button:disabled {
+      opacity: 0.25;
+      cursor: not-allowed;
+    }
+
+    /* ===== 底部返回按钮 ===== */
+    .reader-back-home {
+      text-align: center;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid #ede8e2;
+    }
+
+    .reader-back-home button {
+      background: transparent;
+      border: 1px solid #d5cdc4;
+      padding: 8px 24px;
+      border-radius: 30px;
+      cursor: pointer;
+      font-size: 14px;
+      color: #7a6b5e;
+      transition: all 0.2s;
+      font-family: inherit;
+      letter-spacing: 1px;
+    }
+
+    .reader-back-home button:hover {
+      background: #ede8e2;
+      color: #2c241e;
+    }
+
+    /* ===== 微信弹窗 ===== */
+    .wechat-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 9999;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .wechat-modal.show {
+      display: flex;
+    }
+
+    .wechat-modal .modal-box {
+      background: #fff;
+      padding: 32px 40px 28px;
+      border-radius: 12px;
+      max-width: 360px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    }
+
+    .wechat-modal .modal-box .avatar {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      margin: 0 auto 12px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .wechat-modal .modal-box .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .wechat-modal .modal-box .wechat-name {
+      font-size: 14px;
+      color: #b0a296;
+      margin-bottom: 4px;
+    }
+
+    .wechat-modal .modal-box .wechat-id {
+      font-size: 18px;
+      font-weight: 600;
+      color: #2c241e;
+      letter-spacing: 4px;
+      padding: 10px 0 14px;
+      cursor: pointer;
+      border-bottom: 1px solid #f0ece6;
+      margin-bottom: 14px;
+    }
+
+    .wechat-modal .modal-box .wechat-id:hover {
+      color: #7a6b5e;
+    }
+
+    .wechat-modal .modal-box .hint {
+      font-size: 13px;
+      color: #b0a296;
+      margin-bottom: 16px;
+    }
+
+    .wechat-modal .modal-box .close-btn {
+      padding: 6px 20px;
+      border: 1px solid #ede8e2;
+      border-radius: 4px;
+      background: transparent;
+      color: #b0a296;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .wechat-modal .modal-box .close-btn:hover {
+      background: #f8f5f0;
+    }
+
+    /* ===== 朱邦復简介弹窗 ===== */
+    .zhubangfu-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.45);
+      z-index: 10000;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .zhubangfu-modal.show {
+      display: flex;
+    }
+
+    .zhubangfu-modal .modal-box {
+      background: #fff;
+      border-radius: 16px;
+      max-width: 400px;
+      width: 100%;
+      padding: 32px 28px 28px;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+      animation: modalFadeIn 0.25s ease;
+    }
+
+    @keyframes modalFadeIn {
+      from {
+        opacity: 0;
+        transform: scale(0.95) translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    .zhubangfu-modal .modal-close {
+      position: absolute;
+      top: 12px;
+      right: 16px;
+      font-size: 24px;
+      color: #b0a296;
+      cursor: pointer;
+      line-height: 1;
+      transition: color 0.2s;
+    }
+
+    .zhubangfu-modal .modal-close:hover {
+      color: #2c241e;
+    }
+
+    .zhubangfu-modal .zhubangfu-avatar {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: #2c241e;
+      color: #f8f5f0;
+      font-size: 28px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 12px;
+      font-family: "Noto Serif SC", "宋体", serif;
+    }
+
+    .zhubangfu-modal .zhubangfu-name {
+      font-size: 22px;
+      font-weight: 600;
+      color: #2c241e;
+      letter-spacing: 4px;
+    }
+
+    .zhubangfu-modal .zhubangfu-years {
+      font-size: 14px;
+      color: #b0a296;
+      margin-bottom: 16px;
+    }
+
+    .zhubangfu-modal .zhubangfu-bio {
+      font-size: 14px;
+      line-height: 1.9;
+      color: #4a3f36;
+      text-align: left;
+      padding: 0 4px;
+      margin-bottom: 20px;
+    }
+
+    .zhubangfu-modal .modal-btn {
+      padding: 10px 32px;
+      border: 1px solid #2c241e;
+      border-radius: 30px;
+      background: #2c241e;
+      color: #f8f5f0;
+      font-size: 14px;
+      cursor: pointer;
+      font-family: inherit;
+      letter-spacing: 2px;
+      transition: background 0.2s;
+    }
+
+    .zhubangfu-modal .modal-btn:hover {
+      background: #4a3f36;
+    }
+
+    /* ===== 底部 ===== */
+    .footer {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 13px;
+      color: #ccc5bc;
+      letter-spacing: 2px;
+      padding-top: 12px;
+      width: 100%;
+    }
+
+    .footer .slogan {
+      font-size: 13px;
+      color: #b0a296;
+      letter-spacing: 3px;
+      text-align: right;
+      font-style: italic;
+      margin-bottom: 12px;
+    }
+
+    .footer .divider {
+      border: none;
+      border-top: 1px solid #ede8e2;
+      margin: 0 0 16px 0;
+    }
+
+    .footer a {
+      color: #b0a296;
+      text-decoration: none;
+      transition: color 0.2s;
+      cursor: pointer;
+      display: block;
+      text-align: center;
+    }
+
+    .footer a:hover {
+      color: #2c241e;
+    }
+
+    /* ===== 响应式 ===== */
+    @media (max-width: 768px) {
+      body {
+        padding: 20px 12px 40px;
+      }
+
+      .section {
+        padding: 20px 18px;
+      }
+
+      .item {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 6px;
+      }
+
+      .item-actions {
+        justify-content: flex-start;
+      }
+
+      .lock-card .password-row {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .lock-card input {
+        min-width: unset;
+      }
+
+      .brand {
+        font-size: 22px;
+        letter-spacing: 4px;
+      }
+
+      .header {
+        padding: 24px 0 20px;
+        margin-bottom: 28px;
+      }
+
+      /* ===== 移动端：汉堡按钮显示 ===== */
+      .hamburger-btn {
+        display: flex;
+      }
+
+      /* ===== 阅读器 - 移动端 ===== */
+      #reader-app .reader-header {
+        padding: 8px 12px;
+        min-height: 46px;
+      }
+
+      #reader-app .reader-header .reader-brand {
+        font-size: 11px;
+        letter-spacing: 1px;
+      }
+
+      #reader-app .reader-body {
+        position: relative;
+        overflow: hidden;
+        height: 100%;
+      }
+
+      /* 侧边栏：默认从左侧滑出 */
+      #reader-sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 280px;
+        max-width: 80vw;
+        height: 100%;
+        z-index: 10;
+        transform: translateX(-100%);
+        border-right: 1px solid #ede8e2;
+        box-shadow: 2px 0 12px rgba(0, 0, 0, 0.08);
+        padding: 16px 14px 30px;
+        transition: transform 0.3s ease;
+        background: #fff;
+        border-radius: 0;
+        overflow-y: auto;
+      }
+
+      #reader-sidebar.open {
+        transform: translateX(0);
+      }
+
+      #reader-sidebar .toc-title {
+        font-size: 13px;
+        margin-bottom: 10px;
+        padding-bottom: 10px;
+      }
+
+      #reader-toc a {
+        font-size: 12px;
+        padding: 5px 10px;
+      }
+
+      /* 正文内容占满屏幕 */
+      #reader-content {
+        padding: 16px 16px 40px;
+        width: 100%;
+        height: 100%;
+        overflow-y: auto;
+      }
+
+      #reader-content .chapter-title {
+        font-size: 1.3rem;
+      }
+
+      #reader-content .chapter-sub {
+        font-size: 0.85rem;
+        margin-bottom: 14px;
+        padding-bottom: 10px;
+      }
+
+      #reader-content .markdown-body {
+        font-size: 15px;
+        line-height: 1.8;
+      }
+
+      #reader-nav {
+        margin-top: 28px;
+        padding-top: 14px;
+      }
+
+      #reader-nav button {
+        padding: 8px 14px;
+        font-size: 13px;
+      }
+
+      /* 遮罩在移动端显示 */
+      .sidebar-overlay.active {
+        display: block;
+      }
+
+      .code-hint {
+        text-align: left;
+      }
+
+      .zhubangfu-modal .modal-box {
+        padding: 24px 20px 20px;
+      }
+
+      .zhubangfu-modal .zhubangfu-bio {
+        font-size: 13px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- ============================================================ -->
+<!-- 公开内容 -->
+<!-- ============================================================ -->
+<div id="public-content">
+  <div class="container">
+
+    <!-- 头部 -->
+    <header class="header">
+      <div class="brand">经典解毒</div>
+      <div class="brand-desc">把身体的感受，变成经典的解药</div>
+    </header>
+
+    <!-- ===== 区块一：米饭视角（锁定） ===== -->
+    <section class="section">
+      <div class="section-title">米饭视角</div>
+      <div class="section-sub">
+        从生育/养育/培育经验出发，逐章解读帛书《德道经》81章全文。
+        <span class="credit">
+          以
+          <span class="zhubangfu-trigger" id="zhubangfuTrigger">朱邦復</span>
+          先生
+          <a href="/posts/zhixiaotan.html" style="color:#7a6b5e; border-bottom:1px dotted #d5cdc4; text-decoration:none;">《老子止笑譚》</a>
+          为底本，以母亲身体经验为注脚，逐章对照展开。
+
+          朱先生提供了一面坚实的哲学镜子，而母亲的身体是另一面——两面合在一起，才照出完整的“德”。
+        </span>
+      </div>
+
+      <div class="lock-card" id="lockCard">
+        <div class="lock-title">81章全文解读</div>
+        <div class="lock-desc">凭激活码或手机号解锁 · 联系米饭获取</div>
+
+        <!-- 未解锁状态 -->
+        <div id="unlockArea">
+          <div class="password-row">
+            <input type="text" id="passwordInput" placeholder="输入激活码 / 手机号" autofocus />
+            <button class="btn-primary" id="unlockBtn">解锁阅读</button>
+          </div>
+          <div id="passwordError" class="password-error">激活码或手机号无效，请检查后重新输入</div>
+          <div class="code-hint">
+            还没有激活码或手机号？ <a id="payTrigger">找米饭获取</a>
+          </div>
+        </div>
+
+        <!-- 已解锁状态 -->
+        <div id="alreadyUnlocked" class="already-unlocked">
+          已解锁。点击 <a id="enterReaderBtn">进入阅读器</a> 开始阅读81章全文。
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 区块二：重读经典（免费） ===== -->
+    <section class="section">
+      <div class="section-title">重读经典</div>
+      <div class="section-sub">从生育/养育/培育经验出发，重新读懂老子</div>
+
+      <div class="item" style="border-bottom: 1px solid #f0ece6;">
+        <span class="item-label">女性经验与《德道经》——解读视角的探索</span>
+        <div class="item-actions">
+          <a href="/posts/intro.html" class="btn btn-outline">在线阅读</a>
+          <a href="/pdf/女性经验与《德道经》——一个解读视角的探索.pdf" download class="btn btn-pdf">PDF</a>
+        </div>
+      </div>
+
+      <div class="item">
+        <span class="item-label">从母亲经验看“德”的层次</span>
+        <div class="item-actions">
+          <a href="/posts/chapter1.html" class="btn btn-outline">在线阅读</a>
+          <a href="/pdf/从母亲经验看德的层次.pdf" download class="btn btn-pdf">PDF</a>
+        </div>
+      </div>
+
+      <div class="item">
+        <span class="item-label">从“生”的经验看“得一”与“贵贱”</span>
+        <div class="item-actions">
+          <a href="/posts/chapter2.html" class="btn btn-outline">在线阅读</a>
+          <a href="/pdf/从生的经验看得一与贵贱.pdf" download class="btn btn-pdf">PDF</a>
+        </div>
+      </div>
+
+      <div class="item">
+        <span class="item-label">道的样子就是养育者的样子</span>
+        <div class="item-actions">
+          <a href="/posts/chapter3.html" class="btn btn-outline">在线阅读</a>
+          <a href="/pdf/道的样子就是养育者的样子.pdf" download class="btn btn-pdf">PDF</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 区块三：帛书原文（免费） ===== -->
+    <section class="section">
+      <div class="section-title">帛书原文</div>
+      <div class="section-sub">1973年长沙马王堆出土 · 德经在前，道经在后 · 章节编号参照通行本王弼本</div>
+
+      <div class="item">
+        <span class="item-label">德经 <span class="sub">（共四十四章）</span></span>
+        <div class="item-actions">
+          <a href="/posts/dejing.html" class="btn btn-outline">在线阅读</a>
+          <a href="/pdf/帛书老子甲本-德經.pdf" download class="btn btn-pdf">PDF</a>
+        </div>
+      </div>
+
+      <div class="item">
+        <span class="item-label">道经 <span class="sub">（共三十七章）</span></span>
+        <div class="item-actions">
+          <a href="/posts/daojing.html" class="btn btn-outline">在线阅读</a>
+          <a href="/pdf/帛书老子甲本-道經.pdf" download class="btn btn-pdf">PDF</a>
+        </div>
+      </div>
+
+      <div style="font-size: 12px; color: #b0a296; margin-top: 14px; padding-top: 12px; border-top: 1px solid #f0ece6; line-height: 1.8;">
+        本页面整理自 <a href="https://core.xueheng.net/chu_tu/lao_zi_jia_ben_1/0001.htm" target="_blank" style="color:#7a6b5e; text-decoration:none; border-bottom:1px dotted #d5cdc4;">core.xueheng.net</a>，帛书甲本原文不分章，此处章节编号参照通行本王弼本的通行划分方式，尚未经专业校勘，若有错漏欢迎指正。
+      </div>
+    </section>
+
+    <!-- ===== 区块四：参考资料（免费） ===== -->
+    <section class="section">
+      <div class="section-title">参考资料</div>
+      <div class="section-sub">帛书《老子》及出土文献在线数据库 · 持续整理中</div>
+
+      <div class="ref-item">
+        · <a href="http://ht37.bol.ucla.edu" target="_blank">UCLA Laozi Parallel Corpus</a>
+        <span class="desc">—— 五种版本（竹简/帛书/传奕/河上公/王弼）平行检索，最常用</span>
+      </div>
+
+      <div class="ref-item">
+        · <a href="https://rub.ihp.sinica.edu.tw/~woodslip/h_4m.htm" target="_blank">中研院简帛金石资料库</a>
+        <span class="desc">—— 中央研究院历史语言研究所，含64种简牍文书</span>
+      </div>
+
+      <div class="ref-item">
+        · <a href="http://www.cckf.org/zh/sino/00020" target="_blank">中研院數位典藏資源網</a>
+        <span class="desc">—— 含汉代简牍、金石拓片、善本书籍</span>
+      </div>
+
+      <div class="ref-item">
+        · <a href="https://www.lib.cuhk.edu.hk/Common/Reader/Channel/ShowPage.jsp?Cid=87039&Pid=3&Version=0&Charset=iso-8859-1" target="_blank">汉达文库 · 竹简帛书资料库</a>
+        <span class="desc">—— 香港中文大学，含马王堆/银雀山/睡虎地等，附图像对照（机构订阅）</span>
+      </div>
+
+      <div class="ref-item">
+        · <a href="https://www.history.cuhk.edu.hk/tc/elkt/a-database-of-the-chu-bamboo-manuscripts-of-guodian-2001/" target="_blank">郭店楚簡資料庫</a>
+        <span class="desc">—— 香港中文大学，战国中期《老子》版本</span>
+      </div>
+
+      <div class="ref-item">
+        · <a href="http://www.bsm.org.cn" target="_blank">简帛网</a>
+        <span class="desc">—— 武汉大学简帛研究中心，最新研究动态</span>
+      </div>
+
+      <div class="ref-item">
+        · <a href="http://www.guoxuedashi.com" target="_blank">国学大师</a>
+        <span class="desc">—— 古籍全文检索，含多版本《老子》</span>
+      </div>
+    </section>
+
+    <!-- 底部 -->
+    <footer class="footer">
+      <div class="slogan">君子以慎言语，节饮食。</div>
+      <hr class="divider" />
+      <a id="footerWechat">——RiceLAB——</a>
+    </footer>
+
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- 阅读器（全屏覆盖） -->
+<!-- ============================================================ -->
+<div id="reader-app">
+  <div class="reader-header">
+    <div class="reader-header-left">
+      <button class="hamburger-btn" id="hamburgerBtn" aria-label="切换目录">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <span class="reader-brand">经典解毒 · 米饭视角</span>
+    <span style="width:40px;"></span>
+  </div>
+
+  <div class="reader-body">
+    <!-- 侧边栏遮罩 -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- 左侧目录 -->
+    <div id="reader-sidebar">
+      <div class="toc-title">81章目录</div>
+      <nav id="reader-toc"></nav>
+    </div>
+
+    <!-- 右侧正文 -->
+    <div id="reader-content">
+      <div id="reader-chapter-container">
+        <div style="color:#b0a296; text-align:center; padding-top:60px;">加载中...</div>
+      </div>
+      <div id="reader-nav">
+        <button id="reader-prev" disabled>← 上一章</button>
+        <button id="reader-next">下一章 →</button>
+      </div>
+      <!-- 底部返回按钮 -->
+      <div class="reader-back-home" id="readerBackHome">
+        <button id="backToHomeBtnBottom">← 返回首页</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- 微信号弹窗 -->
+<!-- ============================================================ -->
+<div class="wechat-modal" id="wechatModal">
+  <div class="modal-box">
+    <div class="avatar">
+      <img src="/images/avatar.jpg" alt="路过" />
+    </div>
+    <div class="wechat-name">微信名：路过</div>
+    <div class="wechat-id" id="wechatId">rice_lab</div>
+    <div class="hint">点击微信号自动复制 · 备注"经典解毒"</div>
+    <button class="close-btn" id="closeModal">关闭</button>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- 朱邦復简介弹窗 -->
+<!-- ============================================================ -->
+<div class="zhubangfu-modal" id="zhubangfuModal">
+  <div class="modal-box">
+    <div class="modal-close" id="zhubangfuClose">&times;</div>
+    <div class="zhubangfu-avatar">朱</div>
+    <div class="zhubangfu-name">朱邦復</div>
+    <div class="zhubangfu-years">1937年－</div>
+    <div class="zhubangfu-bio">
+      台灣作家、思想家，人工智能研究者。<br /><br />
+      早年從事中文資訊處理，後潛心於中華文化與老子思想，<br />
+      著有《老子止笑譚》《智慧學九論》等。<br /><br />
+      他以「人工智能」與「系統論」的眼光重讀《道德經》，<br />
+      在科學與哲學之間搭建了一座獨特的橋樑。<br /><br />
+      <span style="color:#b0a296; font-size:13px;">—— 他的解讀是「一面堅實的哲學鏡子」</span>
+    </div>
+    <button class="modal-btn" id="zhubangfuCloseBtn">我知道了</button>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- marked.js -->
+<!-- ============================================================ -->
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+<script>
+// ============================================================
+// 0. 配置
+// ============================================================
+
+// 万能密码（仅用于测试，正式售卖后建议保留作备用）
+const MASTER_PASSWORD = 'guixu20260731';
+
+// 已售出的激活码/手机号列表
+const VALID_CODES = [
+  'test0815',  // 测试码
+  // '20261001-001',
+  // '20261015-001',
+  // '13800138000',  // 示例：手机号
+];
+
+const STORAGE_KEY_VERIFIED = 'momisgod_unlocked';
+const STORAGE_KEY_LAST_CHAPTER = 'momisgod_last_chapter';
+
+// ============================================================
+// 1. 验证逻辑
+// ============================================================
+function setUnlockedState(isUnlocked) {
+  if (isUnlocked) {
+    sessionStorage.setItem(STORAGE_KEY_VERIFIED, 'true');
+    document.getElementById('unlockArea').style.display = 'none';
+    document.getElementById('alreadyUnlocked').classList.add('show');
+    document.getElementById('passwordError').classList.remove('show');
+  } else {
+    sessionStorage.removeItem(STORAGE_KEY_VERIFIED);
+    document.getElementById('unlockArea').style.display = 'block';
+    document.getElementById('alreadyUnlocked').classList.remove('show');
+  }
+}
+
+function checkPassword() {
+  const input = document.getElementById('passwordInput').value.trim();
+  const error = document.getElementById('passwordError');
+
+  if (input === MASTER_PASSWORD || VALID_CODES.includes(input)) {
+    error.classList.remove('show');
+    setUnlockedState(true);
+  } else {
+    error.classList.add('show');
+  }
+}
+
+document.getElementById('unlockBtn').addEventListener('click', checkPassword);
+document.getElementById('passwordInput').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') checkPassword();
+});
+document.getElementById('passwordInput').addEventListener('input', function() {
+  document.getElementById('passwordError').classList.remove('show');
+});
+
+document.getElementById('enterReaderBtn').addEventListener('click', function() {
+  if (sessionStorage.getItem(STORAGE_KEY_VERIFIED) === 'true') {
+    openReader();
+  }
+});
+
+// ============================================================
+// 2. 阅读器切换
+// ============================================================
+function openReader() {
+  document.getElementById('public-content').classList.add('hidden');
+  document.getElementById('reader-app').classList.add('active');
+  loadApp();
+}
+
+function closeReader() {
+  document.getElementById('reader-app').classList.remove('active');
+  document.getElementById('public-content').classList.remove('hidden');
+  document.getElementById('lockCard').scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+// 顶部返回按钮（保留向后兼容）
+document.getElementById('backToHomeBtn')?.addEventListener('click', closeReader);
+// 底部返回按钮
+document.getElementById('backToHomeBtnBottom')?.addEventListener('click', closeReader);
+
+// ============================================================
+// 3. 阅读器核心
+// ============================================================
+let currentBook = null;
+let currentChapterId = null;
+
+async function loadApp() {
+  try {
+    const res = await fetch('book.json');
+    if (!res.ok) throw new Error('book.json 加载失败');
+    currentBook = await res.json();
+    renderTOC(currentBook);
+
+    const lastId = sessionStorage.getItem(STORAGE_KEY_LAST_CHAPTER);
+    const targetId = lastId && currentBook.chapters.find(c => c.id === lastId)
+      ? lastId
+      : currentBook.chapters[0].id;
+    loadChapter(targetId);
+  } catch (e) {
+    console.error('加载失败:', e);
+    document.getElementById('reader-chapter-container').innerHTML =
+      '<p style="color:#b0a296;text-align:center;margin-top:60px;">内容加载失败，请刷新页面重试。</p>';
+  }
+}
+
+function renderTOC(book) {
+  const nav = document.getElementById('reader-toc');
+  nav.innerHTML = book.chapters.map(ch =>
+    `<a href="#" data-id="${ch.id}" class="toc-item">
+       <span class="ch-num">${ch.id}</span> ${ch.title}
+     </a>`
+  ).join('');
+
+  nav.querySelectorAll('.toc-item').forEach(a => {
+    a.addEventListener('click', (e) => {
+      e.preventDefault();
+      const id = a.dataset.id;
+      loadChapter(id);
+      nav.querySelectorAll('.toc-item').forEach(el => el.classList.remove('active'));
+      a.classList.add('active');
+    });
+  });
+}
+
+async function loadChapter(id) {
+  if (!currentBook) return;
+  const ch = currentBook.chapters.find(c => c.id === id);
+  if (!ch) return;
+
+  currentChapterId = id;
+  sessionStorage.setItem(STORAGE_KEY_LAST_CHAPTER, id);
+
+  document.querySelectorAll('.toc-item').forEach(el => {
+    el.classList.toggle('active', el.dataset.id === id);
+  });
+
+  try {
+    const res = await fetch(`chapters/${id}.md`);
+    if (!res.ok) throw new Error('章节不存在');
+    const md = await res.text();
+    const html = marked.parse(md);
+
+    const container = document.getElementById('reader-chapter-container');
+    container.innerHTML = `
+      <div class="chapter-title">${id}. ${ch.title}</div>
+      <div class="chapter-sub">${ch.subtitle || ''}</div>
+      <div class="markdown-body">${html}</div>
+    `;
+
+    updateNavButtons(id);
+    document.getElementById('reader-content').scrollTop = 0;
+  } catch (e) {
+    document.getElementById('reader-chapter-container').innerHTML =
+      `<p style="color:#b0a296;text-align:center;margin-top:60px;">章节内容加载失败 (${id})</p>`;
+  }
+}
+
+function updateNavButtons(id) {
+  if (!currentBook) return;
+  const idx = currentBook.chapters.findIndex(c => c.id === id);
+  const prevBtn = document.getElementById('reader-prev');
+  const nextBtn = document.getElementById('reader-next');
+
+  prevBtn.disabled = idx <= 0;
+  nextBtn.disabled = idx >= currentBook.chapters.length - 1;
+
+  prevBtn.onclick = () => {
+    if (idx > 0) loadChapter(currentBook.chapters[idx - 1].id);
+  };
+  nextBtn.onclick = () => {
+    if (idx < currentBook.chapters.length - 1) loadChapter(currentBook.chapters[idx + 1].id);
+  };
+}
+
+document.addEventListener('keydown', (e) => {
+  if (!document.getElementById('reader-app').classList.contains('active')) return;
+  const prev = document.getElementById('reader-prev');
+  const next = document.getElementById('reader-next');
+  if (e.key === 'ArrowLeft' && !prev.disabled) prev.click();
+  else if (e.key === 'ArrowRight' && !next.disabled) next.click();
+});
+
+// ============================================================
+// 4. 移动端侧边栏控制
+// ============================================================
+(function() {
+  var hamburgerBtn = document.getElementById('hamburgerBtn');
+  var sidebar = document.getElementById('reader-sidebar');
+  var overlay = document.getElementById('sidebarOverlay');
+  var content = document.getElementById('reader-content');
+
+  function openSidebar() {
+    if (sidebar) sidebar.classList.add('open');
+    if (overlay) overlay.classList.add('active');
+    if (hamburgerBtn) hamburgerBtn.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeSidebar() {
+    if (sidebar) sidebar.classList.remove('open');
+    if (overlay) overlay.classList.remove('active');
+    if (hamburgerBtn) hamburgerBtn.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function toggleSidebar() {
+    if (sidebar && sidebar.classList.contains('open')) {
+      closeSidebar();
+    } else {
+      openSidebar();
+    }
+  }
+
+  if (hamburgerBtn) {
+    hamburgerBtn.addEventListener('click', toggleSidebar);
+  }
+
+  if (overlay) {
+    overlay.addEventListener('click', closeSidebar);
+  }
+
+  if (content) {
+    content.addEventListener('click', closeSidebar);
+  }
+
+  if (sidebar) {
+    sidebar.addEventListener('click', function(e) {
+      if (e.target.tagName === 'A' && e.target.closest('#reader-toc')) {
+        setTimeout(closeSidebar, 150);
+      }
+    });
+  }
+
+  window.addEventListener('resize', function() {
+    if (window.innerWidth > 768 && sidebar && sidebar.classList.contains('open')) {
+      closeSidebar();
+    }
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      closeSidebar();
+    }
+  });
+})();
+
+// ============================================================
+// 5. 页面启动检查
+// ============================================================
+if (sessionStorage.getItem(STORAGE_KEY_VERIFIED) === 'true') {
+  setUnlockedState(true);
+}
+
+// ============================================================
+// 6. 微信弹窗
+// ============================================================
+(function() {
+  const modal = document.getElementById('wechatModal');
+  const closeBtn = document.getElementById('closeModal');
+  const wechatId = document.getElementById('wechatId');
+
+  const triggers = [
+    document.getElementById('payTrigger'),
+    document.getElementById('footerWechat')
+  ];
+
+  function openModal(e) {
+    if (e) e.preventDefault();
+    modal.classList.add('show');
+  }
+  function closeModalFn() {
+    modal.classList.remove('show');
+  }
+
+  triggers.forEach(el => {
+    if (el) el.addEventListener('click', openModal);
+  });
+  closeBtn.addEventListener('click', closeModalFn);
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeModalFn();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeModalFn();
+  });
+
+  wechatId.addEventListener('click', function() {
+    const text = this.textContent;
+    navigator.clipboard.writeText(text).then(() => {
+      const original = this.textContent;
+      this.textContent = '已复制';
+      setTimeout(() => { this.textContent = original; }, 1500);
+    }).catch(() => {
+      const range = document.createRange();
+      range.selectNode(this);
+      window.getSelection().removeAllRanges();
+      window.getSelection().addRange(range);
+      document.execCommand('copy');
+      this.textContent = '已复制';
+      setTimeout(() => { this.textContent = 'rice_lab'; }, 1500);
+    });
+  });
+})();
+
+// ============================================================
+// 7. 朱邦復简介弹窗
+// ============================================================
+(function() {
+  var trigger = document.getElementById('zhubangfuTrigger');
+  var modal = document.getElementById('zhubangfuModal');
+  var closeBtn = document.getElementById('zhubangfuClose');
+  var closeBtn2 = document.getElementById('zhubangfuCloseBtn');
+
+  function openModal(e) {
+    if (e) e.preventDefault();
+    if (modal) modal.classList.add('show');
+  }
+
+  function closeModalFn() {
+    if (modal) modal.classList.remove('show');
+  }
+
+  if (trigger) {
+    trigger.addEventListener('click', openModal);
+  }
+
+  if (closeBtn) {
+    closeBtn.addEventListener('click', closeModalFn);
+  }
+
+  if (closeBtn2) {
+    closeBtn2.addEventListener('click', closeModalFn);
+  }
+
+  if (modal) {
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal) closeModalFn();
+    });
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModalFn();
+  });
+})();
+</script>
+
+</body>
 </html>
