@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>帛书老子甲本 · 道經</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #f8f5f0;
+      color: #2c241e;
+      font-family: -apple-system, "PingFang SC", "Noto Serif SC", "宋体", serif;
+      padding: 40px 20px 60px;
+      line-height: 1.9;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .container {
+      max-width: 720px;
+      width: 100%;
+    }
+
+    .header {
+      text-align: right;
+      padding: 4px 0 6px;
+      border-bottom: 1px solid #ede8e2;
+      margin-bottom: 24px;
+    }
+
+    .header .source {
+      font-size: 13px;
+      color: #b0a296;
+      letter-spacing: 2px;
+    }
+
+    .section {
+      background: #ffffff;
+      border-radius: 8px;
+      padding: 24px 28px 24px;
+      border: 1px solid #ede8e2;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 18px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #f0ece6;
+    }
+
+    .card-header .chapter {
+      font-size: 30px;
+      font-weight: 600;
+      letter-spacing: 10px;
+      color: #2c241e;
+      font-family: "Noto Serif SC", "宋体", serif;
+      line-height: 1.2;
+    }
+
+    .card-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+      flex-wrap: wrap;
+    }
+
+    .card-actions .btn {
+      display: inline-block;
+      padding: 4px 14px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 400;
+      text-decoration: none;
+      transition: all 0.2s;
+      border: 1px solid #e0d8d0;
+      background: transparent;
+      color: #b0a296;
+      font-family: inherit;
+      letter-spacing: 0.5px;
+    }
+
+    .card-actions .btn:hover {
+      background: #ede8e2;
+      color: #2c241e;
+      border-color: #b0a296;
+    }
+
+    .card-actions .btn-dark {
+      background: #2c241e;
+      color: #f8f5f0;
+      border-color: #2c241e;
+    }
+
+    .card-actions .btn-dark:hover {
+      background: #4a3f36;
+      border-color: #4a3f36;
+    }
+
+    .original-text {
+      font-size: 16px;
+      line-height: 2.2;
+      color: #1f1a16;
+      letter-spacing: 0.5px;
+    }
+
+    .original-text p {
+      margin-bottom: 1.2em;
+      text-indent: 2em;
+    }
+
+    .back-link {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .back-link a {
+      display: inline-block;
+      padding: 6px 20px;
+      border: 1px solid #ede8e2;
+      border-radius: 4px;
+      font-size: 13px;
+      color: #b0a296;
+      text-decoration: none;
+      transition: all 0.2s;
+      letter-spacing: 1px;
+      background: #f8f5f0;
+    }
+
+    .back-link a:hover {
+      background: #ede8e2;
+      color: #2c241e;
+      border-color: #d5cdc4;
+    }
+
+    .footer {
+      margin-top: 48px;
+      text-align: center;
+      font-size: 13px;
+      color: #ccc5bc;
+      letter-spacing: 2px;
+      border-top: 1px solid #ede8e2;
+      padding-top: 24px;
+      width: 100%;
+      max-width: 720px;
+    }
+
+    .footer a {
+      color: #b0a296;
+      text-decoration: none;
+      transition: color 0.2s;
+      cursor: pointer;
+    }
+
+    .footer a:hover {
+      color: #2c241e;
+    }
+
+    .print-header,
+    .print-footer {
+      display: none;
+    }
+
+    /* ===== 微信弹窗 ===== */
+    .wechat-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 9999;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .wechat-modal.show {
+      display: flex;
+    }
+
+    .wechat-modal .modal-box {
+      background: #fff;
+      padding: 32px 40px 28px;
+      border-radius: 12px;
+      max-width: 360px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    }
+
+    .wechat-modal .modal-box .avatar {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      margin: 0 auto 12px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .wechat-modal .modal-box .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .wechat-modal .modal-box .wechat-name {
+      font-size: 14px;
+      color: #b0a296;
+      margin-bottom: 4px;
+    }
+
+    .wechat-modal .modal-box .wechat-id {
+      font-size: 18px;
+      font-weight: 600;
+      color: #2c241e;
+      letter-spacing: 4px;
+      padding: 10px 0 14px;
+      cursor: pointer;
+      border-bottom: 1px solid #f0ece6;
+      margin-bottom: 14px;
+    }
+
+    .wechat-modal .modal-box .wechat-id:hover {
+      color: #7a6b5e;
+    }
+
+    .wechat-modal .modal-box .hint {
+      font-size: 13px;
+      color: #b0a296;
+      margin-bottom: 16px;
+    }
+
+    .wechat-modal .modal-box .close-btn {
+      padding: 6px 20px;
+      border: 1px solid #ede8e2;
+      border-radius: 4px;
+      background: transparent;
+      color: #b0a296;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .wechat-modal .modal-box .close-btn:hover {
+      background: #f8f5f0;
+    }
+
+    @media print {
+      .card-actions .btn,
+      .back-link {
+        display: none;
+      }
+      .section {
+        border: 1px solid #ddd;
+      }
+      .container {
+        padding-top: 28px;
+        padding-bottom: 28px;
+      }
+      .print-header,
+      .print-footer {
+        display: block !important;
+      }
+      .print-header {
+        position: running(printHeader);
+        font-size: 12px;
+        color: #999;
+        letter-spacing: 2px;
+        text-align: center;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 6px;
+        margin-bottom: 12px;
+      }
+      .print-footer {
+        position: running(printFooter);
+        font-size: 12px;
+        color: #999;
+        letter-spacing: 2px;
+        text-align: center;
+        border-top: 1px solid #eee;
+        padding-top: 6px;
+        margin-top: 12px;
+      }
+      @page {
+        @top-center {
+          content: element(printHeader);
+          font-size: 12px;
+          color: #999;
+          letter-spacing: 2px;
+        }
+        @bottom-center {
+          content: element(printFooter);
+          font-size: 12px;
+          color: #999;
+          letter-spacing: 2px;
+        }
+        margin-top: 1.8cm;
+        margin-bottom: 1.8cm;
+      }
+      .header .source {
+        display: none;
+      }
+      .footer {
+        border-top: none;
+        padding-top: 0;
+        margin-top: 0;
+        display: none;
+      }
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 20px 12px 40px;
+      }
+      .section {
+        padding: 18px 16px;
+      }
+      .card-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+      }
+      .card-header .chapter {
+        font-size: 24px;
+        letter-spacing: 6px;
+        text-align: center;
+      }
+      .card-actions {
+        justify-content: center;
+      }
+      .original-text {
+        font-size: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <div class="print-header">馬王堆漢墓帛書 · 老子甲本</div>
+
+  <header class="header">
+    <div class="source">馬王堆漢墓帛書 · 老子甲本</div>
+  </header>
+
+  <section class="section">
+
+    <div class="card-header">
+      <span class="chapter">道 經</span>
+      <div class="card-actions">
+        <a href="https://core.xueheng.net/chu_tu/lao_zi_jia_ben_1/0002.htm" target="_blank" class="btn">来 源</a>
+        <a href="/posts/dejing.html" class="btn">德 经</a>
+        <a href="/posts/zhixiaotan.html" class="btn">老子止笑譚</a>
+        <a href="/posts/intro.html" class="btn btn-dark">重读经典</a>
+        <a href="/pdf/帛书老子甲本-道經.pdf" download class="btn btn-dark">PDF</a>
+      </div>
+    </div>
+
+    <div class="original-text">
+
+      <p>道，可道也，非恒道也。名，可名也，非恒名也。无名，萬物之始也。有名，萬物之母也。故恒无欲也，以觀其眇（妙）；恒有欲也，以觀其所噭。兩者同出，異名同胃（謂）。玄之有（又）玄，眾眇（妙）之門。</p>
+
+      <p>天下皆知美為美，惡已；皆知善，訾（斯）不善矣。有、无之相生也，難、易之相成也，長、短之相刑（形）也，高、下之相盈也，意（音）、聲之相和也，先、後之相隋（隨），恒也。是以聲（聖）人居无為之事，行不言之教。萬物作而弗始也，為而弗志（恃）也，成功而弗居也。夫唯居，是以弗去。</p>
+
+      <p>不上賢，使民不爭。不貴難得之貨，使民不為盗。不見可欲，使民不亂。是以聲（聖）人之治也，虛其心，實其腹；弱其志，強其骨。恒使民无知无欲也。使夫知不敢弗為而已，則无不治矣。</p>
+
+      <p>道冲，而用之又弗盈也。潚（淵）呵始（似）萬物之宗。銼（挫）其，解其紛，和其光，同其塵。湛呵似或存。吾不知誰子也，象帝之先。</p>
+
+      <p>天地不仁，以萬物為芻狗。聲（聖）人不仁，以百省（姓）為芻狗。天地之間，其猶橐籥輿（與）？虛而不淈（屈），踵（動）而俞（愈）出。多聞數窮，不若守於中。</p>
+
+      <p>浴（谷）神不死，是胃（謂）玄牝。玄牝之門，是胃（謂）天地之根。綿綿呵若存，用之不堇（勤）。</p>
+
+      <p>天長，地久。天地之所以能長且久者，以其不自生也，故能長生。是以聲（聖）人芮（退）其身而身先，外其身而身存。不以其无私輿（與）？故能成其私。</p>
+
+      <p>上善治（似）水。水善利萬物而有靜（爭），居眾之所惡，故幾於道矣。居善地，心善潚（淵），予善信，正（政）善治，事善能，蹱（動）善時。夫唯不靜（爭），故无尤。</p>
+
+      <p>㨁（持）而盈之，不若其已。揣而□之□，□可長葆之。金玉盈室，莫之守也。貴富而䮦（驕），自遺咎也。功述（遂）身芮（退），天之道也。</p>
+
+      <p>戴營魄抱一，能毋離乎？槫氣至柔，能嬰兒乎？修（滌）除玄藍（鑒），能毋疵乎？愛民活國，能毋以知乎？天門啟闔，能為雌乎？明白四達，能毋以為乎？生之，畜之。生而弗有，長而弗宰，是謂玄德。</p>
+
+      <p>卅輻同一轂，當其无有，車之用也。然（埏）埴為器，當其无有，埴器之用也。鑿戶牖，當其无有，室之用也。故有之以為利，无之以為用。</p>
+
+      <p>五色使人目明（盲），馳騁田臘（獵）使人心發狂，難得之𧷴（貨）使人之行方（妨），五味使人之口𠷹（爽），五音使人之耳聾。是以聲（聖）人之治也，為腹不為目。故去罷（彼）耳（取）此。</p>
+
+      <p>龍（寵）辱若驚，貴大梡（患）若身。苛（何）胃（謂）龍（寵）辱若驚？龍（寵）之為下，得之若驚，失之若驚，是胃（謂）龍（寵）辱若驚。何胃（謂）貴大梡（患）若身？吾所以有大梡（患）者，為吾有身也。及吾无身，有何梡（患）？故貴為身於為天下，若可以𨒙（託）天下矣；愛以身為天下，女何（可）以寄天下。</p>
+
+      <p>視之而弗見，名之曰微。聽之而弗聞，名之曰希。捪之而弗得，名之曰夷。三者不可至（致）計（詰），故而為一。一者，其上不𠈅，其下不忽。尋尋呵不可名也，復歸於无物。是胃（謂）无狀之狀，无物之象。是謂忽恍。隨而不見其後，迎而不見其首。執今之道，以御今之有，以知古始，是胃（謂）道紀。</p>
+
+      <p>古之善為道者，微妙玄達，深不可志（識）。夫唯不可志（識），故強為之容，曰：與呵其若冬涉水，猶呵其若畏四鄰，嚴呵其若客，渙呵其若淩（凌）澤（釋），□呵其若楃（樸），湷呵其若濁，𣼥呵其若浴（谷）。濁而情（靜）之，余（徐）清。女（安）以重（動）之，余（徐）生。葆此道不欲盈。夫唯不欲盈，是以能敝而不成。</p>
+
+      <p>至虛極也，守情（靜）表也。萬物旁（並）作，吾以觀其復也。天物雲雲，各復歸於其根，曰靜。情（靜），是胃（謂）復命。復命，常也。知常，明也。不知常，㠵（妄），㠵（妄）作凶。知常容，容乃公，公乃王，王乃天，天乃道，道乃久，沕（沒）身不怠。</p>
+
+      <p>大上下知有之，其次親譽之，其次畏之，其下母（侮）之。信不足，案（安）有不信。猶呵其貴言也。成功遂事，而百省（姓）胃（謂）我自然。</p>
+
+      <p>故大道廢，案有仁義。知（智）快（慧）出，案有大偽。六親不和，案有畜（孝）茲（慈）。邦家𨴽（昏）亂，案有貞臣。</p>
+
+      <p>絕聲（聖）棄知（智），民利百負（倍）。絕仁棄義，民復畜（孝）茲（慈）。絕巧棄利，盗賊无有。此三言也，以為文未足，故令之有所屬。見素抱樸，少私寡欲。絕學无憂。</p>
+
+      <p>唯與訶，其相去幾何？美與惡，其相去何若？人之所畏，亦不可以不畏。恍呵其未央哉，眾人巸（熙）巸（熙），若鄉（饗）於大牢，而春登臺。我泊焉未佻（兆），若嬰兒未咳。累呵如无所歸。眾人皆有餘，我獨遺。我禺（愚）人之心也，蠢蠢呵。鬻（俗）人昭昭，我獨若𦟲（昏）呵。鬻（俗）人蔡（察）蔡（察），我獨𨴽（悶）𨴽（悶）呵。忽呵其若海，望（恍）呵其若无所止。眾人皆有以，我獨頑以悝（俚）。吾欲獨異於人，而貴食母。</p>
+
+      <p>孔德之容，唯道是從。道之物，唯望（恍）唯忽。忽呵恍呵，中有象呵。望（恍）呵忽呵，中有物呵。𣾧（幽）呵嗚（冥）呵，中有請（精）吔（呵）。其請（精）甚真，其中有信。自今及古，其名不去，以順眾𠇑（父）。吾何以知眾𠇑（父）之然？以此，炊者不立，自視（示）不章，自見者不明，自伐者无功，自矜者不長。其在道，曰：『𥺌（餘）食、贅行。』物或惡之，故有欲者弗居。</p>
+
+      <p>曲則金（全），枉則定（正），洼則盈，敝則新。少則得，多則惑。是以聲（聖）人執一，以為天下牧。不自視（示）故明，不自見故章，不自伐故有功，弗矜故能長。夫唯不爭，故莫能與之爭。古之所謂曲全者幾語才（哉），誠金（全）歸之。</p>
+
+      <p>希言自然。飄風不冬（終）朝，暴雨不冬（終）日。孰為此？天地，而弗能久，又况於人乎？故從事而道者同於道，德（得）者同於德（得），者（失）者同於失。同德（得）者，道亦德（得）之。同於失者，道亦失之。</p>
+
+      <p>有物昆成，先天地生。繡（寂）呵繆（寥）呵，獨立而不改，可以為天地母。吾未知其名，字之曰道。吾強為之名曰大。大曰筮（逝），筮（逝）曰遠，遠曰反。道大，天大，地大，王亦大。國中有四大，而王居一焉。人法地，地法天，天法道，道法自然。</p>
+
+      <p>重為巠（輕）根，清（靜）為趮（躁）君。是以君子眾（終）日行，不離其甾（輜）重，唯（雖）有環官，燕處則昭若。若何萬乘之王而以身巠（輕）於天下？巠（輕）則失本，趮（躁）則失君。</p>
+
+      <p>善行者无勶（轍）迹，善言者无瑕適（謫），善數者不以檮（籌）𥮥（策）。善閉者无（關）籥（𨷲）而不可啟也，善結者无𦄿約而不可解也。是以聲（聖）人恒善㤹（救）人，而无棄人，物无棄財，是胃（謂）明。故善人，善人之師；不善人，善人之齎（資）也。不貴其師，不愛其齎（資），唯（雖）知（智）乎大眯（迷）。是胃（謂）眇（妙）要。</p>
+
+      <p>知其雄，守其雌，為天下溪。為天下溪，恒德不雞（離）。恒（德）不雞（離），復歸嬰兒。知其白，守其辱，為天下。為天下浴（谷），恒德乃足。德乃足，復歸於樸。知其，守其黑，為天下式。為天下式，恒德不貣（忒）。德不貣（忒），復歸於无極。楃（樸）散則為器，聖人用則為官長。夫大制无割。</p>
+
+      <p>將欲取天下而為之，吾見其弗得已。夫天下，神器也，非可為者也。為者敗之，執者失之。物或行或隨，或炅（熱）或吹，或強或挫，或坏（培）或撱（墮）。是以聲（聖）人去甚，去大，去楮（奢）。</p>
+
+      <p>以道佐人主，不以兵強於天下。其事好還，師之所居，楚朸（棘）生之。善者果而已矣，毋以取強焉。果而毋䮦（驕），果而勿矜，果而勿伐，果而毋得已居，是胃（謂）果而不強。物壯而老，是胃（謂）之不道，不道蚤（早）已。</p>
+
+      <p>夫兵者，不祥之器也。物或惡之，故有欲者弗居。君子居則貴左，用兵則貴右。故兵者非君子之器也。兵者不祥之器也，不得已而用之，銛襲為上，勿美也。若美之，是樂殺人也。夫樂殺人，不可以得志於天下矣。是以吉事上左，喪事上右；是以便（偏）將軍居左，上將軍居右，言以喪禮居之也。殺人眾，以悲依（哀）立（莅）之；戰勝，以喪禮處之。</p>
+
+      <p>道恒无名，楃（樸）唯（雖）小而天下弗敢臣。侯王若能守之，萬物將自賓。天地相谷（合），以俞甘洛（露）。民莫之令，而自均焉。始制有名。名亦既有，夫亦將知止，知止所以不殆。俾（譬）道之在天下也，猶小浴（谷）之與江海也。</p>
+
+      <p>知人者，知（智）也。自知者，明也，勝人者，有力也。自勝者，強也。知足者，富也。強行者，有志也。不失其所者，久也。死不忘者，壽也。</p>
+
+      <p>道汎呵其可左右也，成功遂事而弗名有也。萬物歸焉而弗為主，則恒无欲也，可名於小。萬物歸焉而弗為主，可名於大。是以聲（聖）人之能成大也，以其不為大也，故能成大。</p>
+
+      <p>執大象，天下往。往而不害，安平大。樂與餌，過格（客）止。故道之出言也，曰：『談（淡）呵其无味也。視之，不足見也。聽之，不足聞也。用之，不可既也。』</p>
+
+      <p>將欲拾（翕）之，必古（固）張之。將欲弱之，必固強之。將欲去之，必古（固）與之。將欲奪之，必古（固）予之。是胃（謂）微明。友弱勝強，魚不脫於潚（淵），邦利器不可以視（示）人。</p>
+
+      <p>道恒无名，侯王若守之，萬物將自𢡺（化）。𢡺（化）而欲作，吾將鎮之以无名之楃（樸）。鎮之以无名之楃（樸），夫將不辱。不辱以情（靜），天地將自正。</p>
+
+      <!-- ===== 版本说明 ===== -->
+      <div style="background: #f5f2ec; border-radius: 6px; padding: 18px 22px; margin-top: 20px; border-left: 3px solid #d5cdc4;">
+
+        <div style="font-size: 13px; color: #7a6b5e; letter-spacing: 1px; margin-bottom: 2px;">📜 版本说明</div>
+
+        <p style="font-size: 14px; font-weight: 500; color: #2c241e; margin-bottom: 10px;">帛书甲本 · 道经（德经在前）</p>
+
+        <p style="font-size: 13px; line-height: 2; color: #4a3f36; margin-bottom: 8px;">
+          帛书甲本出土于1973年长沙马王堆三号汉墓，是现存最早的《老子》完整抄本之一。其独特之处在于<strong>“德经”在前、“道经”在后</strong>，与后世通行本的顺序相反，保留了更早期的文本面貌。
+        </p>
+
+        <p style="font-size: 13px; line-height: 2; color: #4a3f36; margin-bottom: 8px;">
+          版本中保留了大量的<strong>通假字和异体字</strong>（如“胃”通“谓”、“有”通“又”），以及“也”等语气助词，语感更古朴舒缓，比通行本更接近战国秦汉时期的语言习惯。
+        </p>
+
+        <p style="font-size: 13px; line-height: 2; color: #4a3f36; margin-bottom: 8px;">
+          文本上，帛书甲本与王弼本等通行版本存在一些重要差异，如<strong>“上善治水”</strong>而非“上善若水”，<strong>“大器免成”</strong>而非“大器晚成”，这些差异直接影响对《老子》思想的理解，值得留意。
+        </p>
+
+        <p style="font-size: 13px; line-height: 2; color: #4a3f36; margin-bottom: 8px;">
+          <strong>关于版本差异：</strong> 本文所录帛书甲本释文主要参考 core.xueheng.net 的整理版本。中央研究院历史文物陈列馆所藏的帛书甲本释文，在部分文字释读和断句上与本站存在差异。这些差异属于帛书整理工作中的正常现象，反映了不同学者对古文字的释读分歧。
+        </p>
+
+        <p style="font-size: 13px; line-height: 2; color: #4a3f36; margin-bottom: 8px;">
+          本页面整理自 <a href="https://core.xueheng.net/chu_tu/lao_zi_jia_ben_1/0002.htm" target="_blank" style="color: #7a6b5e; text-decoration: none; border-bottom: 1px dotted #d5cdc4;">core.xueheng.net</a>，尚未经专业校勘，若有错漏之处，欢迎指正，会在后续阅读中不断修正。
+        </p>
+
+        <div style="font-size: 12px; color: #b0a296; margin-top: 12px; padding-top: 12px; border-top: 1px solid #e0d8d0; line-height: 1.8;">
+          <span style="display:inline-block; background:#e0d8d0; padding:0 8px; border-radius:3px; font-size:11px; color:#7a6b5e; margin-right:6px;">计划</span>
+          后续支持帛书乙本 · 郭店楚简 · 河上公本 · 傅奕本 等多版本对照，逐步迭代。
+          <span style="display:block; margin-top:2px; font-size:11px; color:#ccc5bc;">需求：《道德经》版本管理系统 · 状态：待落地</span>
+        </div>
+
+        <div style="font-size: 12px; color: #b0a296; margin-top: 12px; padding-top: 12px; border-top: 1px solid #e0d8d0; line-height: 1.8;">
+          <span style="display:inline-block; background:#e0d8d0; padding:0 8px; border-radius:3px; font-size:11px; color:#7a6b5e; margin-right:6px;">参考</span>
+          帛书《老子》及出土文献在线数据库（持续整理中）：
+          <span style="display:block; margin-top:4px; font-size:12px; color:#7a6b5e; padding-left:4px;">
+
+            · <a href="http://ht37.bol.ucla.edu" target="_blank" style="color:#7a6b5e; text-decoration:none; border-bottom:1px dotted #d5cdc4;">UCLA Laozi Parallel Corpus</a>
+            <span style="color:#b0a296; font-size:11px;">—— 五种版本（竹简/帛书/传奕/河上公/王弼）平行检索，最常用</span>
+            <br>
+
+            · <a href="https://rub.ihp.sinica.edu.tw/~woodslip/h_4m.htm" target="_blank" style="color:#7a6b5e; text-decoration:none; border-bottom:1px dotted #d5cdc4;">中研院简帛金石资料库</a>
+            <span style="color:#b0a296; font-size:11px;">—— 中央研究院历史语言研究所，含64种简牍文书</span>
+            <br>
+
+            · <a href="http://www.cckf.org/zh/sino/00020" target="_blank" style="color:#7a6b5e; text-decoration:none; border-bottom:1px dotted #d5cdc4;">中研院數位典藏資源網</a>
+            <span style="color:#b0a296; font-size:11px;">—— 含汉代简牍、金石拓片、善本书籍</span>
+            <br>
+
+            · <a href="https://www.lib.cuhk.edu.hk/Common/Reader/Channel/ShowPage.jsp?Cid=87039&Pid=3&Version=0&Charset=iso-8859-1" target="_blank" style="color:#7a6b5e; text-decoration:none; border-bottom:1px dotted #d5cdc4;">汉达文库 · 竹简帛书资料库</a>
+            <span style="color:#b0a296; font-size:11px;">—— 香港中文大学，含马王堆/银雀山/睡虎地等，附图像对照（机构订阅）</span>
+            <br>
+
+            · <a href="https://www.history.cuhk.edu.hk/tc/elkt/a-database-of-the-chu-bamboo-manuscripts-of-guodian-2001/" target="_blank" style="color:#7a6b5e; text-decoration:none; border-bottom:1px dotted #d5cdc4;">郭店楚簡資料庫</a>
+            <span style="color:#b0a296; font-size:11px;">—— 香港中文大学，战国中期《老子》版本</span>
+            <br>
+
+            · <a href="http://www.bsm.org.cn" target="_blank" style="color:#7a6b5e; text-decoration:none; border-bottom:1px dotted #d5cdc4;">简帛网</a>
+            <span style="color:#b0a296; font-size:11px;">—— 武汉大学简帛研究中心，最新研究动态</span>
+            <br>
+
+            · <a href="http://www.guoxuedashi.com" target="_blank" style="color:#7a6b5e; text-decoration:none; border-bottom:1px dotted #d5cdc4;">国学大师</a>
+            <span style="color:#b0a296; font-size:11px;">—— 古籍全文检索，含多版本《老子》</span>
+
+          </span>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <div class="back-link">
+    <a href="/">← 返回首页</a>
+    <a href="/#lockCard" style="display:inline-block; padding:6px 20px; border:1px solid #2c241e; border-radius:4px; font-size:13px; color:#2c241e; text-decoration:none; background:transparent; margin-left:10px; transition:all 0.2s;">查看全文解读</a>
+  </div>
+
+</div>
+
+<footer class="footer">
+  <a id="footerWechat">——RiceLAB——</a>
+</footer>
+
+<div class="print-footer">——RiceLAB——</div>
+
+<!-- ============================================================ -->
+<!-- 微信号弹窗 -->
+<!-- ============================================================ -->
+<div class="wechat-modal" id="wechatModal">
+  <div class="modal-box">
+    <div class="avatar">
+      <img src="/images/avatar.jpg" alt="路过" />
+    </div>
+    <div class="wechat-name">微信名：路过</div>
+    <div class="wechat-id" id="wechatId">rice_lab</div>
+    <div class="hint">点击微信号自动复制 · 备注“经典解毒”</div>
+    <button class="close-btn" id="closeModal">关闭</button>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// 微信弹窗逻辑
+// ============================================================
+(function() {
+  var modal = document.getElementById('wechatModal');
+  var closeBtn = document.getElementById('closeModal');
+  var wechatId = document.getElementById('wechatId');
+  var footerTrigger = document.getElementById('footerWechat');
+
+  function openModal(e) {
+    if (e) e.preventDefault();
+    if (modal) modal.classList.add('show');
+  }
+
+  function closeModalFn() {
+    if (modal) modal.classList.remove('show');
+  }
+
+  if (footerTrigger) footerTrigger.addEventListener('click', openModal);
+  if (closeBtn) closeBtn.addEventListener('click', closeModalFn);
+  if (modal) {
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal) closeModalFn();
+    });
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModalFn();
+  });
+
+  if (wechatId) {
+    wechatId.addEventListener('click', function() {
+      var text = this.textContent;
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(text).then(function() {
+          var original = this.textContent;
+          this.textContent = '已复制';
+          setTimeout(function() { this.textContent = original; }.bind(this), 1500);
+        }.bind(this)).catch(function() {
+          fallbackCopy(text, this);
+        }.bind(this));
+      } else {
+        fallbackCopy(text, this);
+      }
+    });
+  }
+
+  function fallbackCopy(text, el) {
+    var range = document.createRange();
+    range.selectNode(el);
+    window.getSelection().removeAllRanges();
+    window.getSelection().addRange(range);
+    try {
+      document.execCommand('copy');
+      el.textContent = '已复制';
+      setTimeout(function() { el.textContent = 'rice_lab'; }, 1500);
+    } catch (e) {
+      // ignore
+    }
+  }
+})();
+</script>
+
+</body>
+</html>

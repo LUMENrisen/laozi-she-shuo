@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>朱邦復 · 老子止笑譚</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #f8f5f0;
+      color: #2c241e;
+      font-family: -apple-system, "PingFang SC", "Noto Serif SC", "宋体", serif;
+      padding: 40px 20px 60px;
+      line-height: 1.9;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .container {
+      max-width: 780px;
+      width: 100%;
+    }
+
+    .header {
+      text-align: right;
+      padding: 4px 0 6px;
+      border-bottom: 1px solid #ede8e2;
+      margin-bottom: 24px;
+    }
+
+    .header .source {
+      font-size: 13px;
+      color: #b0a296;
+      letter-spacing: 2px;
+    }
+
+    .section {
+      background: #ffffff;
+      border-radius: 8px;
+      padding: 24px 28px 24px;
+      border: 1px solid #ede8e2;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 18px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #f0ece6;
+    }
+
+    .card-header .chapter {
+      font-size: 30px;
+      font-weight: 600;
+      letter-spacing: 10px;
+      color: #2c241e;
+      font-family: "Noto Serif SC", "宋体", serif;
+      line-height: 1.2;
+    }
+
+    .card-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+      flex-wrap: wrap;
+    }
+
+    .card-actions .btn {
+      display: inline-block;
+      padding: 4px 14px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 400;
+      text-decoration: none;
+      transition: all 0.2s;
+      border: 1px solid #e0d8d0;
+      background: transparent;
+      color: #b0a296;
+      font-family: inherit;
+      letter-spacing: 0.5px;
+    }
+
+    .card-actions .btn:hover {
+      background: #ede8e2;
+      color: #2c241e;
+      border-color: #b0a296;
+    }
+
+    .card-actions .btn-dark {
+      background: #2c241e;
+      color: #f8f5f0;
+      border-color: #2c241e;
+    }
+
+    .card-actions .btn-dark:hover {
+      background: #4a3f36;
+      border-color: #4a3f36;
+    }
+
+    .content {
+      font-size: 16px;
+      line-height: 2.2;
+      color: #1f1a16;
+      letter-spacing: 0.5px;
+    }
+
+    .content .chapter-title {
+      font-weight: 600;
+      font-size: 1.2rem;
+      color: #2c241e;
+      margin-top: 32px;
+      margin-bottom: 10px;
+      border-bottom: 1px solid #ede8e2;
+      padding-bottom: 4px;
+    }
+
+    .content .chapter-title:first-of-type {
+      margin-top: 0;
+    }
+
+    .content p {
+      margin-bottom: 1.2em;
+      text-indent: 2em;
+    }
+
+    .content .note-block {
+      background: #f5f2ec;
+      border-radius: 6px;
+      padding: 16px 20px;
+      margin: 20px 0;
+      border-left: 3px solid #d5cdc4;
+      font-size: 13px;
+      color: #7a6b5e;
+      line-height: 1.8;
+    }
+
+    .content .note-block p {
+      margin-bottom: 4px;
+      text-indent: 0;
+    }
+
+    .back-link {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .back-link a {
+      display: inline-block;
+      padding: 6px 20px;
+      border: 1px solid #ede8e2;
+      border-radius: 4px;
+      font-size: 13px;
+      color: #b0a296;
+      text-decoration: none;
+      transition: all 0.2s;
+      letter-spacing: 1px;
+      background: #f8f5f0;
+    }
+
+    .back-link a:hover {
+      background: #ede8e2;
+      color: #2c241e;
+      border-color: #d5cdc4;
+    }
+
+    .back-link .btn-dark {
+      background: #2c241e;
+      color: #f8f5f0;
+      border-color: #2c241e;
+    }
+
+    .back-link .btn-dark:hover {
+      background: #4a3f36;
+      border-color: #4a3f36;
+    }
+
+    .footer {
+      margin-top: 48px;
+      text-align: center;
+      font-size: 13px;
+      color: #ccc5bc;
+      letter-spacing: 2px;
+      border-top: 1px solid #ede8e2;
+      padding-top: 24px;
+      width: 100%;
+      max-width: 780px;
+    }
+
+    .footer a {
+      color: #b0a296;
+      text-decoration: none;
+      transition: color 0.2s;
+      cursor: pointer;
+    }
+
+    .footer a:hover {
+      color: #2c241e;
+    }
+
+    .print-header,
+    .print-footer {
+      display: none;
+    }
+
+    /* ===== 微信弹窗 ===== */
+    .wechat-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 9999;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .wechat-modal.show {
+      display: flex;
+    }
+
+    .wechat-modal .modal-box {
+      background: #fff;
+      padding: 32px 40px 28px;
+      border-radius: 12px;
+      max-width: 360px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    }
+
+    .wechat-modal .modal-box .avatar {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      margin: 0 auto 12px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .wechat-modal .modal-box .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .wechat-modal .modal-box .wechat-name {
+      font-size: 14px;
+      color: #b0a296;
+      margin-bottom: 4px;
+    }
+
+    .wechat-modal .modal-box .wechat-id {
+      font-size: 18px;
+      font-weight: 600;
+      color: #2c241e;
+      letter-spacing: 4px;
+      padding: 10px 0 14px;
+      cursor: pointer;
+      border-bottom: 1px solid #f0ece6;
+      margin-bottom: 14px;
+    }
+
+    .wechat-modal .modal-box .wechat-id:hover {
+      color: #7a6b5e;
+    }
+
+    .wechat-modal .modal-box .hint {
+      font-size: 13px;
+      color: #b0a296;
+      margin-bottom: 16px;
+    }
+
+    .wechat-modal .modal-box .close-btn {
+      padding: 6px 20px;
+      border: 1px solid #ede8e2;
+      border-radius: 4px;
+      background: transparent;
+      color: #b0a296;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .wechat-modal .modal-box .close-btn:hover {
+      background: #f8f5f0;
+    }
+
+    @media print {
+      .card-actions .btn,
+      .back-link {
+        display: none;
+      }
+      .section {
+        border: 1px solid #ddd;
+      }
+      .container {
+        padding-top: 28px;
+        padding-bottom: 28px;
+      }
+      .print-header,
+      .print-footer {
+        display: block !important;
+      }
+      .print-header {
+        position: running(printHeader);
+        font-size: 12px;
+        color: #999;
+        letter-spacing: 2px;
+        text-align: center;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 6px;
+        margin-bottom: 12px;
+      }
+      .print-footer {
+        position: running(printFooter);
+        font-size: 12px;
+        color: #999;
+        letter-spacing: 2px;
+        text-align: center;
+        border-top: 1px solid #eee;
+        padding-top: 6px;
+        margin-top: 12px;
+      }
+      @page {
+        @top-center {
+          content: element(printHeader);
+          font-size: 12px;
+          color: #999;
+          letter-spacing: 2px;
+        }
+        @bottom-center {
+          content: element(printFooter);
+          font-size: 12px;
+          color: #999;
+          letter-spacing: 2px;
+        }
+        margin-top: 1.8cm;
+        margin-bottom: 1.8cm;
+      }
+      .header .source {
+        display: none;
+      }
+      .footer {
+        border-top: none;
+        padding-top: 0;
+        margin-top: 0;
+        display: none;
+      }
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 20px 12px 40px;
+      }
+      .section {
+        padding: 18px 16px;
+      }
+      .card-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+      }
+      .card-header .chapter {
+        font-size: 24px;
+        letter-spacing: 6px;
+        text-align: center;
+      }
+      .card-actions {
+        justify-content: center;
+      }
+      .content {
+        font-size: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <div class="print-header">朱邦復 · 老子止笑譚</div>
+
+  <header class="header">
+    <div class="source">朱邦復 · 老子止笑譚</div>
+  </header>
+
+  <section class="section">
+
+    <div class="card-header">
+      <span class="chapter">老子止笑譚</span>
+      <div class="card-actions">
+        <a href="http://www.open-lit.com/txtbook.php?bid=577" target="_blank" class="btn">来 源</a>
+        <a href="/posts/dejing.html" class="btn">德 经</a>
+        <a href="/posts/daojing.html" class="btn">道 经</a>
+        <a href="/posts/intro.html" class="btn btn-dark">重读经典</a>
+        <a href="/pdf/577_老子止笑譚.txt" download class="btn btn-dark">下载</a>
+      </div>
+    </div>
+
+    <!-- ===== 正文由 JavaScript 动态加载 ===== -->
+    <div class="content" id="zhixiaotan-content">
+      <p style="color:#b0a296; text-align:center; padding:40px 0;">加载中...</p>
+    </div>
+
+  </section>
+
+  <div class="back-link">
+    <a href="http://www.open-lit.com/txtbook.php?bid=577" class="btn-dark" style="display:inline-block; padding:6px 20px; border:1px solid #2c241e; border-radius:4px; font-size:13px; color:#f8f5f0; text-decoration:none; background:#2c241e; transition:all 0.2s;">查看全文解读</a>
+  </div>
+
+</div>
+
+<footer class="footer">
+  <a id="footerWechat">——RiceLAB——</a>
+</footer>
+
+<div class="print-footer">——RiceLAB——</div>
+
+<!-- ============================================================ -->
+<!-- 微信号弹窗 -->
+<!-- ============================================================ -->
+<div class="wechat-modal" id="wechatModal">
+  <div class="modal-box">
+    <div class="avatar">
+      <img src="/images/avatar.jpg" alt="路过" />
+    </div>
+    <div class="wechat-name">微信名：路过</div>
+    <div class="wechat-id" id="wechatId">rice_lab</div>
+    <div class="hint">点击微信号自动复制 · 备注“经典解毒”</div>
+    <button class="close-btn" id="closeModal">关闭</button>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- 数据文件：由 Python 脚本从 txt 生成 -->
+<!-- ============================================================ -->
+<script src="/posts/zhixiaotan-data.js"></script>
+
+<!-- ============================================================ -->
+<!-- 渲染逻辑 -->
+<!-- ============================================================ -->
+<script>
+// ============================================================
+// 微信弹窗逻辑
+// ============================================================
+(function() {
+  var modal = document.getElementById('wechatModal');
+  var closeBtn = document.getElementById('closeModal');
+  var wechatId = document.getElementById('wechatId');
+  var footerTrigger = document.getElementById('footerWechat');
+
+  function openModal(e) {
+    if (e) e.preventDefault();
+    if (modal) modal.classList.add('show');
+  }
+
+  function closeModalFn() {
+    if (modal) modal.classList.remove('show');
+  }
+
+  if (footerTrigger) footerTrigger.addEventListener('click', openModal);
+  if (closeBtn) closeBtn.addEventListener('click', closeModalFn);
+  if (modal) {
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal) closeModalFn();
+    });
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModalFn();
+  });
+
+  if (wechatId) {
+    wechatId.addEventListener('click', function() {
+      var text = this.textContent;
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(text).then(function() {
+          var original = this.textContent;
+          this.textContent = '已复制';
+          setTimeout(function() { this.textContent = original; }.bind(this), 1500);
+        }.bind(this)).catch(function() {
+          fallbackCopy(text, this);
+        }.bind(this));
+      } else {
+        fallbackCopy(text, this);
+      }
+    });
+  }
+
+  function fallbackCopy(text, el) {
+    var range = document.createRange();
+    range.selectNode(el);
+    window.getSelection().removeAllRanges();
+    window.getSelection().addRange(range);
+    try {
+      document.execCommand('copy');
+      el.textContent = '已复制';
+      setTimeout(function() { el.textContent = 'rice_lab'; }, 1500);
+    } catch (e) {
+      // ignore
+    }
+  }
+})();
+
+// ============================================================
+// 渲染正文（依赖 zhixiaotan-data.js）
+// ============================================================
+(function() {
+  var container = document.getElementById('zhixiaotan-content');
+
+  // 等待数据加载
+  if (typeof ZHIXIAOTAN_DATA === 'undefined') {
+    container.innerHTML = '<p style="color:#b0a296;text-align:center;padding:40px 0;">数据加载失败，请检查 zhixiaotan-data.js 是否存在</p>';
+    return;
+  }
+
+  var html = '';
+
+  // 遍历章节
+  ZHIXIAOTAN_DATA.forEach(function(chapter) {
+    // 章节标题
+    html += '<div class="chapter-title">' + chapter.title + '</div>';
+
+    // 段落
+    if (Array.isArray(chapter.paragraphs)) {
+      chapter.paragraphs.forEach(function(p) {
+        if (p.trim() !== '') {
+          html += '<p>' + p + '</p>';
+        }
+      });
+    }
+  });
+
+  container.innerHTML = html;
+})();
+</script>
+
+</body>
+</html>
