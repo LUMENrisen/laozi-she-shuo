@@ -94,7 +94,7 @@
       letter-spacing: 0.5px;
     }
 
-    /* ===== 悬浮提示（关于朱邦復） ===== */
+    /* ===== 悬浮提示 ===== */
     .zhubangfu-trigger {
       color: #d4af37;
       border-bottom: 1px dashed #d4af37;
@@ -243,7 +243,6 @@
       text-decoration: underline;
     }
 
-    /* ===== 激活码提示 - 靠右 ===== */
     .code-hint {
       margin-top: 12px;
       font-size: 13px;
@@ -378,11 +377,18 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 12px 24px;
+      padding: 10px 16px;
       background: #fff;
       border-bottom: 1px solid #ede8e2;
       flex-shrink: 0;
       z-index: 10;
+      min-height: 52px;
+    }
+
+    #reader-app .reader-header .reader-header-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
     #reader-app .reader-header .back-btn {
@@ -392,7 +398,7 @@
       font-size: 14px;
       cursor: pointer;
       font-family: inherit;
-      padding: 4px 12px;
+      padding: 4px 8px;
       border-radius: 4px;
       transition: background 0.2s;
     }
@@ -409,13 +415,61 @@
       letter-spacing: 2px;
     }
 
-    #reader-app .reader-body {
-      display: flex;
-      flex: 1;
-      overflow: hidden;
+    /* ===== 汉堡按钮 ===== */
+    .hamburger-btn {
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 24px;
+      height: 18px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      flex-shrink: 0;
     }
 
-    /* 左侧目录 */
+    .hamburger-btn span {
+      display: block;
+      width: 100%;
+      height: 2px;
+      background: #2c241e;
+      border-radius: 2px;
+      transition: all 0.25s ease;
+    }
+
+    .hamburger-btn.active span:nth-child(1) {
+      transform: translateY(8px) rotate(45deg);
+    }
+
+    .hamburger-btn.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .hamburger-btn.active span:nth-child(3) {
+      transform: translateY(-8px) rotate(-45deg);
+    }
+
+    /* ===== 侧边栏遮罩 ===== */
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.35);
+      z-index: 5;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .sidebar-overlay.active {
+      display: block;
+      opacity: 1;
+    }
+
+    /* ===== 目录侧边栏 ===== */
     #reader-sidebar {
       width: 280px;
       min-width: 280px;
@@ -424,6 +478,8 @@
       overflow-y: auto;
       padding: 20px 16px 30px;
       height: 100%;
+      flex-shrink: 0;
+      transition: transform 0.3s ease;
     }
 
     #reader-sidebar .toc-title {
@@ -472,7 +528,13 @@
       font-weight: 400;
     }
 
-    /* 右侧正文 */
+    #reader-app .reader-body {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+      position: relative;
+    }
+
     #reader-content {
       flex: 1;
       overflow-y: auto;
@@ -492,13 +554,11 @@
     }
 
     #reader-content .chapter-sub {
-      color: #4a3f36;
-      font-size: 1.5rem;
-      font-weight: 500;
+      color: #b0a296;
+      font-size: 0.95rem;
       margin-bottom: 28px;
       border-bottom: 1px solid #ede8e2;
       padding-bottom: 18px;
-      line-height: 1.6;
     }
 
     #reader-content .markdown-body {
@@ -589,7 +649,7 @@
       cursor: not-allowed;
     }
 
-    /* ===== 微信号弹窗 ===== */
+    /* ===== 微信弹窗 ===== */
     .wechat-modal {
       display: none;
       position: fixed;
@@ -754,92 +814,107 @@
         margin-bottom: 28px;
       }
 
-      /* ===== 阅读器 - 移动端优化 ===== */
-    #reader-sidebar {
-      width: 100%;
-      min-width: unset;
-      max-height: 45vh;          /* 从 35vh 增加到 45vh，目录显示更多 */
-      height: auto;
-      overflow-y: auto;          /* 确保目录可以滚动 */
-      border-right: none;
-      border-bottom: 1px solid #ede8e2;
-      padding: 12px 16px 16px;   /* 稍微减小内边距 */
-    }
-
-    #reader-sidebar .toc-title {
-      font-size: 13px;           /* 目录标题缩小一点 */
-      margin-bottom: 10px;
-    }
-
-    #reader-toc a {
-      font-size: 12px;           /* 目录条目缩小一点，显示更多行 */
-      padding: 4px 10px;
-    }
-
-    #reader-app .reader-body {
-      flex-direction: column;
-      height: 100%;              /* 保证占满剩余高度 */
-      overflow-y: auto;
-    }
-
-    #reader-content {
-      padding: 16px 16px 40px;   /* 从 24px 20px 减小，整体更紧凑 */
-      height: auto;
-      overflow-y: visible;
-    }
-
-    #reader-content .chapter-title {
-      font-size: 1.4rem;         /* 标题稍微缩小 */
-    }
-
-    #reader-content .chapter-sub {
-      font-size: 0.85rem;        /* 副标题缩小 */
-      margin-bottom: 16px;
-      padding-bottom: 12px;
-    }
-
-    #reader-content .markdown-body {
-      font-size: 15px;           /* 正文字体稍微调小，手机阅读更舒适 */
-      line-height: 1.8;
-    }
-
-    #reader-app .reader-header {
-      padding: 8px 12px;         /* 头部内边距减小 */
-      flex-wrap: wrap;
-      gap: 4px;
-    }
-
-    #reader-app .reader-header .back-btn {
-      font-size: 13px;
-      padding: 2px 8px;
-    }
-
-    #reader-app .reader-header .reader-brand {
-      font-size: 12px;           /* 品牌文字缩小，避免挤占 */
-    }
-
-    #reader-nav {
-      margin-top: 32px;
-      padding-top: 16px;
-    }
-
-    #reader-nav button {
-      padding: 8px 16px;
-      font-size: 13px;
-    }
-  }
-
-      .wechat-modal .modal-box {
-        padding: 24px 20px 20px;
+      /* ===== 移动端：汉堡按钮显示 ===== */
+      .hamburger-btn {
+        display: flex;
       }
 
-      .ref-item .desc {
-        display: block;
-        padding-left: 0;
+      /* ===== 阅读器 - 移动端 ===== */
+      #reader-app .reader-header {
+        padding: 8px 12px;
+        min-height: 46px;
       }
 
-      .section-sub .credit {
+      #reader-app .reader-header .back-btn {
+        font-size: 13px;
+        padding: 2px 6px;
+      }
+
+      #reader-app .reader-header .reader-brand {
+        font-size: 11px;
+        letter-spacing: 1px;
+      }
+
+      #reader-app .reader-body {
+        position: relative;
+        overflow: hidden;
+        height: 100%;
+      }
+
+      /* 侧边栏：默认从左侧滑出 */
+      #reader-sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 280px;
+        max-width: 80vw;
+        height: 100%;
+        z-index: 10;
+        transform: translateX(-100%);
+        border-right: 1px solid #ede8e2;
+        box-shadow: 2px 0 12px rgba(0, 0, 0, 0.08);
+        padding: 16px 14px 30px;
+        transition: transform 0.3s ease;
+        background: #fff;
+        border-radius: 0;
+        overflow-y: auto;
+      }
+
+      #reader-sidebar.open {
+        transform: translateX(0);
+      }
+
+      #reader-sidebar .toc-title {
+        font-size: 13px;
+        margin-bottom: 10px;
+        padding-bottom: 10px;
+      }
+
+      #reader-toc a {
         font-size: 12px;
+        padding: 5px 10px;
+      }
+
+      /* 正文内容占满屏幕 */
+      #reader-content {
+        padding: 16px 16px 40px;
+        width: 100%;
+        height: 100%;
+        overflow-y: auto;
+      }
+
+      #reader-content .chapter-title {
+        font-size: 1.3rem;
+      }
+
+      #reader-content .chapter-sub {
+        font-size: 0.85rem;
+        margin-bottom: 14px;
+        padding-bottom: 10px;
+      }
+
+      #reader-content .markdown-body {
+        font-size: 15px;
+        line-height: 1.8;
+      }
+
+      #reader-nav {
+        margin-top: 28px;
+        padding-top: 14px;
+      }
+
+      #reader-nav button {
+        padding: 8px 14px;
+        font-size: 13px;
+      }
+
+      /* 遮罩在移动端显示 */
+      .sidebar-overlay.active {
+        display: block;
+      }
+
+      .code-hint {
+        text-align: left;
       }
 
       .zhubangfu-trigger .tooltip {
@@ -854,10 +929,6 @@
       .zhubangfu-trigger .tooltip::after {
         left: 20px;
         transform: none;
-      }
-
-      .code-hint {
-        text-align: left;
       }
     }
   </style>
@@ -881,7 +952,7 @@
     <section class="section">
       <div class="section-title">米饭视角</div>
       <div class="section-sub">
-        从生育经验出发，逐章解读帛书《德道经》81章全文。
+        从生育/养育/培育经验出发，逐章解读帛书《德道经》81章全文。
         <span class="credit">
           以
           <span class="zhubangfu-trigger">
@@ -896,7 +967,7 @@
             </span>
           </span>
           先生
-          <a href="/posts/zhixiaotan.html" target="_blank" style="color:#7a6b5e; border-bottom:1px dotted #d5cdc4; text-decoration:none;">《老子止笑譚》</a>
+          <a href="/posts/zhixiaotan.html" style="color:#7a6b5e; border-bottom:1px dotted #d5cdc4; text-decoration:none;">《老子止笑譚》</a>
           为底本，以母亲身体经验为注脚，逐章对照展开。
 
           朱先生提供了一面坚实的哲学镜子，而母亲的身体是另一面——两面合在一起，才照出完整的“德”。
@@ -915,7 +986,7 @@
           </div>
           <div id="passwordError" class="password-error">激活码或手机号无效，请检查后重新输入</div>
           <div class="code-hint">
-            还没有激活码？ <a id="payTrigger">找米饭获取</a>
+            还没有激活码或手机号？ <a id="payTrigger">找米饭获取</a>
           </div>
         </div>
 
@@ -943,7 +1014,7 @@
         <span class="item-label">从母亲经验看“德”的层次</span>
         <div class="item-actions">
           <a href="/posts/chapter1.html" class="btn btn-outline">在线阅读</a>
-          <a href="/pdf/从母亲经验看“德”的层次 · 经典解毒.pdf" download class="btn btn-pdf">PDF</a>
+          <a href="/pdf/从母亲经验看德的层次.pdf" download class="btn btn-pdf">PDF</a>
         </div>
       </div>
 
@@ -951,7 +1022,7 @@
         <span class="item-label">从“生”的经验看“得一”与“贵贱”</span>
         <div class="item-actions">
           <a href="/posts/chapter2.html" class="btn btn-outline">在线阅读</a>
-          <a href="/pdf/从“生”的经验看“得一”与“贵贱” · 经典解毒.pdf" download class="btn btn-pdf">PDF</a>
+          <a href="/pdf/从生的经验看得一与贵贱.pdf" download class="btn btn-pdf">PDF</a>
         </div>
       </div>
 
@@ -959,7 +1030,7 @@
         <span class="item-label">道的样子就是养育者的样子</span>
         <div class="item-actions">
           <a href="/posts/chapter3.html" class="btn btn-outline">在线阅读</a>
-          <a href="/pdf/道的样子就是养育者的样子 · 经典解毒.pdf" download class="btn btn-pdf">PDF</a>
+          <a href="/pdf/道的样子就是养育者的样子.pdf" download class="btn btn-pdf">PDF</a>
         </div>
       </div>
     </section>
@@ -1046,17 +1117,29 @@
 <!-- ============================================================ -->
 <div id="reader-app">
   <div class="reader-header">
-    <button class="back-btn" id="backToHomeBtn">← 返回首页</button>
+    <div class="reader-header-left">
+      <button class="hamburger-btn" id="hamburgerBtn" aria-label="切换目录">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <button class="back-btn" id="backToHomeBtn">← 返回</button>
+    </div>
     <span class="reader-brand">经典解毒 · 米饭视角</span>
     <span style="width:80px;"></span>
   </div>
 
   <div class="reader-body">
+    <!-- 侧边栏遮罩 -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- 左侧目录 -->
     <div id="reader-sidebar">
       <div class="toc-title">81章目录</div>
       <nav id="reader-toc"></nav>
     </div>
 
+    <!-- 右侧正文 -->
     <div id="reader-content">
       <div id="reader-chapter-container">
         <div style="color:#b0a296; text-align:center; padding-top:60px;">加载中...</div>
@@ -1079,7 +1162,7 @@
     </div>
     <div class="wechat-name">微信名：路过</div>
     <div class="wechat-id" id="wechatId">rice_lab</div>
-    <div class="hint">点击微信号自动复制 · 备注“经典解毒”</div>
+    <div class="hint">点击微信号自动复制 · 备注"经典解毒"</div>
     <button class="close-btn" id="closeModal">关闭</button>
   </div>
 </div>
@@ -1097,11 +1180,12 @@
 // 万能密码（仅用于测试，正式售卖后建议保留作备用）
 const MASTER_PASSWORD = 'guixu20260731';
 
-// 已售出的激活码/订单号列表（每卖出一份，把订单号加到这里）
+// 已售出的激活码/手机号列表
 const VALID_CODES = [
   'test0815',  // 测试码
   // '20261001-001',
-  // 示例：'20261001-002',
+  // '20261015-001',
+  // '13800138000',  // 示例：手机号
 ];
 
 const STORAGE_KEY_VERIFIED = 'momisgod_unlocked';
@@ -1127,7 +1211,6 @@ function checkPassword() {
   const input = document.getElementById('passwordInput').value.trim();
   const error = document.getElementById('passwordError');
 
-  // 检查是否匹配万能密码，或是否在有效激活码列表中
   if (input === MASTER_PASSWORD || VALID_CODES.includes(input)) {
     error.classList.remove('show');
     setUnlockedState(true);
@@ -1136,7 +1219,6 @@ function checkPassword() {
   }
 }
 
-// 绑定验证事件
 document.getElementById('unlockBtn').addEventListener('click', checkPassword);
 document.getElementById('passwordInput').addEventListener('keydown', function(e) {
   if (e.key === 'Enter') checkPassword();
@@ -1145,7 +1227,6 @@ document.getElementById('passwordInput').addEventListener('input', function() {
   document.getElementById('passwordError').classList.remove('show');
 });
 
-// 进入阅读器
 document.getElementById('enterReaderBtn').addEventListener('click', function() {
   if (sessionStorage.getItem(STORAGE_KEY_VERIFIED) === 'true') {
     openReader();
@@ -1263,7 +1344,6 @@ function updateNavButtons(id) {
   };
 }
 
-// 键盘左右翻页（阅读器激活时生效）
 document.addEventListener('keydown', (e) => {
   if (!document.getElementById('reader-app').classList.contains('active')) return;
   const prev = document.getElementById('reader-prev');
@@ -1273,14 +1353,78 @@ document.addEventListener('keydown', (e) => {
 });
 
 // ============================================================
-// 4. 页面启动检查
+// 4. 移动端侧边栏控制
+// ============================================================
+(function() {
+  var hamburgerBtn = document.getElementById('hamburgerBtn');
+  var sidebar = document.getElementById('reader-sidebar');
+  var overlay = document.getElementById('sidebarOverlay');
+  var content = document.getElementById('reader-content');
+
+  function openSidebar() {
+    if (sidebar) sidebar.classList.add('open');
+    if (overlay) overlay.classList.add('active');
+    if (hamburgerBtn) hamburgerBtn.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeSidebar() {
+    if (sidebar) sidebar.classList.remove('open');
+    if (overlay) overlay.classList.remove('active');
+    if (hamburgerBtn) hamburgerBtn.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function toggleSidebar() {
+    if (sidebar && sidebar.classList.contains('open')) {
+      closeSidebar();
+    } else {
+      openSidebar();
+    }
+  }
+
+  if (hamburgerBtn) {
+    hamburgerBtn.addEventListener('click', toggleSidebar);
+  }
+
+  if (overlay) {
+    overlay.addEventListener('click', closeSidebar);
+  }
+
+  if (content) {
+    content.addEventListener('click', closeSidebar);
+  }
+
+  if (sidebar) {
+    sidebar.addEventListener('click', function(e) {
+      if (e.target.tagName === 'A' && e.target.closest('#reader-toc')) {
+        setTimeout(closeSidebar, 150);
+      }
+    });
+  }
+
+  window.addEventListener('resize', function() {
+    if (window.innerWidth > 768 && sidebar && sidebar.classList.contains('open')) {
+      closeSidebar();
+    }
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      closeSidebar();
+    }
+  });
+})();
+
+// ============================================================
+// 5. 页面启动检查
 // ============================================================
 if (sessionStorage.getItem(STORAGE_KEY_VERIFIED) === 'true') {
   setUnlockedState(true);
 }
 
 // ============================================================
-// 5. 微信弹窗
+// 6. 微信弹窗
 // ============================================================
 (function() {
   const modal = document.getElementById('wechatModal');
