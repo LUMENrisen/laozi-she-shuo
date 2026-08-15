@@ -1034,17 +1034,17 @@
 
       <div class="lock-card" id="lockCard">
         <div class="lock-title">81章全文解读</div>
-        <div class="lock-desc">凭激活码或手机号解锁 · 联系米饭获取</div>
+        <div class="lock-desc">请输入阅读密码 · 联系米饭获取</div>
 
         <!-- 未解锁状态 -->
         <div id="unlockArea">
           <div class="password-row">
-            <input type="text" id="passwordInput" placeholder="输入激活码 / 手机号" autofocus />
+            <input type="password" id="passwordInput" placeholder="请输入密码" autofocus />
             <button class="btn-primary" id="unlockBtn">解锁阅读</button>
           </div>
-          <div id="passwordError" class="password-error">激活码或手机号无效，请检查后重新输入</div>
+          <div id="passwordError" class="password-error">密码错误，请重新输入</div>
           <div class="code-hint">
-            还没有激活码或手机号？ <a id="payTrigger">找米饭获取</a>
+            还没有密码？ <a id="payTrigger">找米饭获取</a>
           </div>
         </div>
 
@@ -1259,14 +1259,8 @@
 // 0. 配置
 // ============================================================
 
-// 万能密码（仅用于测试，正式售卖后建议保留作备用）
-const MASTER_PASSWORD = 'guixu20260731';
-
-// 已售出的激活码/手机号列表
-const VALID_CODES = [
-  // 现在已经改用 Worker 验证，这里作为降级备份
-
-];
+// 当前密码（每次更新内容后修改这里）
+const PASSWORD = 'laozi2026';
 
 const STORAGE_KEY_VERIFIED = 'momisgod_unlocked';
 const STORAGE_KEY_LAST_CHAPTER = 'momisgod_last_chapter';
@@ -1287,40 +1281,16 @@ function setUnlockedState(isUnlocked) {
   }
 }
 
-// Worker 地址（替换成你自己的）
-const WORKER_URL = 'https://auth-checker.lyc-8b2.workers.dev';
-
 function checkPassword() {
   const input = document.getElementById('passwordInput').value.trim();
   const error = document.getElementById('passwordError');
 
-  // 先检查万能密码（保留后门，以防 Worker 出问题）
-  if (input === MASTER_PASSWORD) {
+  if (input === PASSWORD) {
     error.classList.remove('show');
     setUnlockedState(true);
-    return;
+  } else {
+    error.classList.add('show');
   }
-
-  // 发送请求到 Worker 验证
-  fetch(WORKER_URL + '?code=' + encodeURIComponent(input))
-    .then(res => res.json())
-    .then(data => {
-      if (data.valid) {
-        error.classList.remove('show');
-        setUnlockedState(true);
-      } else {
-        error.classList.add('show');
-      }
-    })
-    .catch(() => {
-      // 如果 Worker 请求失败，尝试本地验证（降级方案）
-      if (VALID_CODES.includes(input)) {
-        error.classList.remove('show');
-        setUnlockedState(true);
-      } else {
-        error.classList.add('show');
-      }
-    });
 }
 
 document.getElementById('unlockBtn').addEventListener('click', checkPassword);
