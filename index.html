@@ -75,6 +75,7 @@
       color: #2c241e;
       letter-spacing: 2px;
       margin-bottom: 6px;
+      text-align: center;
     }
 
     .section-sub {
@@ -83,6 +84,7 @@
       margin-bottom: 18px;
       letter-spacing: 1px;
       line-height: 1.8;
+      text-align: center;
     }
 
     /* ===== 朱邦復触发链接 ===== */
@@ -112,12 +114,7 @@
       font-size: 16px;
       color: #2c241e;
       margin-bottom: 4px;
-    }
-
-    .lock-card .lock-desc {
-      font-size: 14px;
-      color: #7a6b5e;
-      margin-bottom: 16px;
+      text-align: center;
     }
 
     .lock-card .password-row {
@@ -178,6 +175,7 @@
       display: none;
       color: #7a6b5e;
       font-size: 14px;
+      text-align: center;
     }
     .lock-card .already-unlocked.show {
       display: block;
@@ -1014,9 +1012,8 @@
         </div>
 
         <!-- 密码提示 -->
-        <div style="font-size:13px; color:#b0a296; text-align:center; margin-top:14px; padding-top:12px; border-top:1px solid #f0ece6; line-height:1.8;">
-          <p style="text-indent:0; margin-bottom:2px;">阅读密码有时效性，定期更新。</p>
-          <p style="text-indent:0;">获取密码请添加 <a id="payTrigger" style="color:#2c241e; font-weight:500; cursor:pointer; text-decoration:underline; text-underline-offset:2px;">米饭</a></p>
+        <div style="font-size:13px; color:#b0a296; text-align:center; margin-top:14px; padding-top:12px; border-top:1px solid #f0ece6;">
+          如密码失效请联系 <a id="payTrigger" style="color:#2c241e; font-weight:500; cursor:pointer; text-decoration:underline; text-underline-offset:2px;">米饭</a>
         </div>
       </div>
     </section>
@@ -1038,13 +1035,10 @@
           以 <span class="zhubangfu-trigger" id="zhubangfuTrigger2">朱邦復</span> 先生 <a href="/posts/zhixiaotan.html" style="color:#7a6b5e; border-bottom:1px dotted #d5cdc4; text-decoration:none;">《老子止笑譚》</a> 为哲学参照，以母亲的身体为注脚，逐章逐句对照展开。初稿约60万字，覆盖帛书《德道经》全部81章。
         </p>
 
-        <p style="text-indent:2em; margin-bottom:1em; color:#4a3f36; background:#f5f2ec; padding:12px 16px; border-radius:6px;">
+        <p style="text-indent:2em; margin-bottom:0; color:#4a3f36; background:#f5f2ec; padding:12px 16px; border-radius:6px;">
           <strong>为什么是朱邦復？</strong> 他以人工智能和系统论的眼光重读《道德经》，把“道”拆解为能量、结构、因果——提供了“一面坚实的哲学镜子”。而母亲的身体经验是另一面镜子。两面合在一起，才照出完整的“德”。
         </p>
 
-        <p style="text-indent:2em; color:#7a6b5e; font-size:14px; border-top:1px solid #ede8e2; padding-top:1em; margin-top:1em;">
-          阅读需要密码 · <a id="payTrigger2" style="color:#2c241e; font-weight:500; cursor:pointer; text-decoration:underline; text-underline-offset:2px;">联系米饭</a> 获取
-        </p>
       </div>
     </section>
 
@@ -1508,7 +1502,6 @@ if (sessionStorage.getItem(STORAGE_KEY_VERIFIED) === 'true') {
 
   const triggers = [
     document.getElementById('payTrigger'),
-    document.getElementById('payTrigger2'),
     document.getElementById('footerWechat')
   ];
 
@@ -1553,7 +1546,6 @@ if (sessionStorage.getItem(STORAGE_KEY_VERIFIED) === 'true') {
 // 7. 朱邦復简介弹窗
 // ============================================================
 (function() {
-  var trigger1 = document.getElementById('zhubangfuTrigger');
   var trigger2 = document.getElementById('zhubangfuTrigger2');
   var modal = document.getElementById('zhubangfuModal');
   var closeBtn = document.getElementById('zhubangfuClose');
@@ -1568,9 +1560,6 @@ if (sessionStorage.getItem(STORAGE_KEY_VERIFIED) === 'true') {
     if (modal) modal.classList.remove('show');
   }
 
-  if (trigger1) {
-    trigger1.addEventListener('click', openModal);
-  }
   if (trigger2) {
     trigger2.addEventListener('click', openModal);
   }
