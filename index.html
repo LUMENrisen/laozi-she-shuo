@@ -85,14 +85,6 @@
       line-height: 1.8;
     }
 
-    .section-sub .credit {
-      display: block;
-      margin-top: 6px;
-      font-size: 13px;
-      color: #7a6b5e;
-      letter-spacing: 0.5px;
-    }
-
     /* ===== 朱邦復触发链接 ===== */
     .zhubangfu-trigger {
       color: #d4af37;
@@ -191,20 +183,6 @@
       display: block;
     }
     .lock-card .already-unlocked a {
-      color: #2c241e;
-      font-weight: 500;
-      cursor: pointer;
-      text-decoration: underline;
-    }
-
-    .code-hint {
-      margin-top: 12px;
-      font-size: 13px;
-      color: #b0a296;
-      text-align: right;
-    }
-
-    .code-hint a {
       color: #2c241e;
       font-weight: 500;
       cursor: pointer;
@@ -986,10 +964,6 @@
         display: block;
       }
 
-      .code-hint {
-        text-align: left;
-      }
-
       .zhubangfu-modal .modal-box {
         padding: 24px 20px 20px;
       }
@@ -1020,23 +994,10 @@
       <div class="section-title">米饭视角</div>
       <div class="section-sub">
         从生育经验出发，逐章解读帛书《德道经》81章全文（初稿约60万字）。
-        <span class="credit">
-          以
-          <span class="zhubangfu-trigger" id="zhubangfuTrigger">朱邦復</span>
-          先生
-          <a href="/posts/zhixiaotan.html" style="color:#7a6b5e; border-bottom:1px dotted #d5cdc4; text-decoration:none;">《老子止笑譚》</a>
-          为底本，以母亲身体经验为注脚，逐章对照展开。
-          朱先生提供了一面坚实的哲学镜子，而母亲的身体是另一面——两面合在一起，才照出完整的“德”。
-        </span>
-      </div>
-
-      <div style="font-size:13px; color:#7a6b5e; text-align:center; margin-bottom:12px;">
-        您收到的明信片背面写有阅读密码
       </div>
 
       <div class="lock-card" id="lockCard">
         <div class="lock-title">81章全文解读</div>
-        <div class="lock-desc">请输入阅读密码 · 联系米饭获取</div>
 
         <!-- 未解锁状态 -->
         <div id="unlockArea">
@@ -1045,14 +1006,17 @@
             <button class="btn-primary" id="unlockBtn">解锁阅读</button>
           </div>
           <div id="passwordError" class="password-error">密码错误，请重新输入</div>
-          <div class="code-hint">
-            还没有密码？ <a id="payTrigger">找米饭获取</a>
-          </div>
         </div>
 
         <!-- 已解锁状态 -->
         <div id="alreadyUnlocked" class="already-unlocked">
           已解锁。点击 <a id="enterReaderBtn">进入阅读器</a> 开始阅读81章全文。
+        </div>
+
+        <!-- 密码提示 -->
+        <div style="font-size:13px; color:#b0a296; text-align:center; margin-top:14px; padding-top:12px; border-top:1px solid #f0ece6; line-height:1.8;">
+          <p style="text-indent:0; margin-bottom:2px;">阅读密码有时效性，定期更新。</p>
+          <p style="text-indent:0;">获取密码请添加 <a id="payTrigger" style="color:#2c241e; font-weight:500; cursor:pointer; text-decoration:underline; text-underline-offset:2px;">米饭</a></p>
         </div>
       </div>
     </section>
@@ -1071,23 +1035,28 @@
         </p>
 
         <p style="text-indent:2em; margin-bottom:1em;">
-          以朱邦復先生《老子止笑譚》为哲学参照，以母亲的身体为注脚，逐章逐句对照展开。初稿约60万字，覆盖帛书《德道经》全部81章。
+          以 <span class="zhubangfu-trigger" id="zhubangfuTrigger2">朱邦復</span> 先生 <a href="/posts/zhixiaotan.html" style="color:#7a6b5e; border-bottom:1px dotted #d5cdc4; text-decoration:none;">《老子止笑譚》</a> 为哲学参照，以母亲的身体为注脚，逐章逐句对照展开。初稿约60万字，覆盖帛书《德道经》全部81章。
+        </p>
+
+        <p style="text-indent:2em; margin-bottom:1em; color:#4a3f36; background:#f5f2ec; padding:12px 16px; border-radius:6px;">
+          <strong>为什么是朱邦復？</strong> 他以人工智能和系统论的眼光重读《道德经》，把“道”拆解为能量、结构、因果——提供了“一面坚实的哲学镜子”。而母亲的身体经验是另一面镜子。两面合在一起，才照出完整的“德”。
         </p>
 
         <p style="text-indent:2em; color:#7a6b5e; font-size:14px; border-top:1px solid #ede8e2; padding-top:1em; margin-top:1em;">
-          阅读需要密码 · 联系米饭获取
+          阅读需要密码 · <a id="payTrigger2" style="color:#2c241e; font-weight:500; cursor:pointer; text-decoration:underline; text-underline-offset:2px;">联系米饭</a> 获取
         </p>
       </div>
     </section>
+
+    <!-- ===== 免费试读分割线 ===== -->
+    <div style="font-size:12px; color:#b0a296; letter-spacing:3px; text-align:center; padding:4px 0 12px 0;">
+      ⚬ 以下为免费试读 ⚬
+    </div>
 
     <!-- ===== 区块三：重读经典（免费试读） ===== -->
     <section class="section">
       <div class="section-title">重读经典</div>
       <div class="section-sub">从生育/养育/培育经验出发，重新读懂老子</div>
-
-      <div style="font-size:12px; color:#b0a296; letter-spacing:2px; text-align:center; margin-top:-6px; margin-bottom:14px; border-top:1px solid #f0ece6; padding-top:12px;">
-        ⚬ 以下为免费试读 ⚬
-      </div>
 
       <div class="item" style="border-bottom: 1px solid #f0ece6;">
         <span class="item-label">女性经验与《德道经》——解读视角的探索</span>
@@ -1539,6 +1508,7 @@ if (sessionStorage.getItem(STORAGE_KEY_VERIFIED) === 'true') {
 
   const triggers = [
     document.getElementById('payTrigger'),
+    document.getElementById('payTrigger2'),
     document.getElementById('footerWechat')
   ];
 
@@ -1583,7 +1553,8 @@ if (sessionStorage.getItem(STORAGE_KEY_VERIFIED) === 'true') {
 // 7. 朱邦復简介弹窗
 // ============================================================
 (function() {
-  var trigger = document.getElementById('zhubangfuTrigger');
+  var trigger1 = document.getElementById('zhubangfuTrigger');
+  var trigger2 = document.getElementById('zhubangfuTrigger2');
   var modal = document.getElementById('zhubangfuModal');
   var closeBtn = document.getElementById('zhubangfuClose');
   var closeBtn2 = document.getElementById('zhubangfuCloseBtn');
@@ -1597,8 +1568,11 @@ if (sessionStorage.getItem(STORAGE_KEY_VERIFIED) === 'true') {
     if (modal) modal.classList.remove('show');
   }
 
-  if (trigger) {
-    trigger.addEventListener('click', openModal);
+  if (trigger1) {
+    trigger1.addEventListener('click', openModal);
+  }
+  if (trigger2) {
+    trigger2.addEventListener('click', openModal);
   }
 
   if (closeBtn) {
