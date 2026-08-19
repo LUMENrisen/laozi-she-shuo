@@ -101,6 +101,79 @@
       color: #b89a2a;
     }
 
+    /* ===== 序言 - 折叠展开 ===== */
+    .preface-trigger {
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .preface-trigger .title-line {
+      font-size: 18px;
+      font-weight: 500;
+      color: #2c241e;
+      letter-spacing: 1px;
+      border-bottom: 1px dashed #d5cdc4;
+      padding-bottom: 4px;
+      display: inline-block;
+    }
+
+    .preface-trigger .title-line .arrow {
+      font-size: 14px;
+      color: #b0a296;
+      margin-left: 8px;
+      transition: transform 0.3s ease;
+      display: inline-block;
+    }
+
+    .preface-trigger .title-line .arrow.open {
+      transform: rotate(180deg);
+    }
+
+    .preface-trigger .preview {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #7a6b5e;
+      line-height: 1.8;
+    }
+
+    .preface-full {
+      display: none;
+      margin-top: 18px;
+      padding-top: 18px;
+      border-top: 1px solid #ede8e2;
+      font-size: 15px;
+      line-height: 1.9;
+      color: #2c241e;
+    }
+
+    .preface-full.show {
+      display: block;
+    }
+
+    .preface-full .shunhua {
+      font-family: "KaiTi", "STKaiti", "Noto Serif SC", serif;
+      font-style: italic;
+      color: #7a6b5e;
+      letter-spacing: 1px;
+    }
+
+    .preface-full .shunhua em {
+      font-style: normal;
+      color: #2c241e;
+      font-weight: 500;
+    }
+
+    .preface-full p {
+      margin-bottom: 16px;
+      text-indent: 2em;
+    }
+
+    .preface-full .divider-line {
+      border: none;
+      border-top: 1px solid #ede8e2;
+      margin: 28px 0;
+    }
+
     /* ===== 锁定卡片 ===== */
     .lock-card {
       background: #f5f0eb;
@@ -969,6 +1042,14 @@
       .zhubangfu-modal .zhubangfu-bio {
         font-size: 13px;
       }
+
+      .preface-trigger .title-line {
+        font-size: 16px;
+      }
+
+      .preface-full {
+        font-size: 14px;
+      }
     }
   </style>
 </head>
@@ -986,6 +1067,103 @@
       <div class="brand">经典解毒</div>
       <div class="brand-desc">把身体的感受，变成经典的解药</div>
     </header>
+
+    <!-- ============================================================ -->
+    <!-- 序言（折叠展开） -->
+    <!-- ============================================================ -->
+    <section class="section" id="prefaceSection">
+      <div class="preface-trigger" id="prefaceToggle">
+        <div class="title-line">
+          我读帛书《德道经》五个月，意识到它写的是母亲的一生
+          <span class="arrow" id="prefaceArrow">▾</span>
+        </div>
+        <div class="preview">
+          三月份的时候，我在一条评论区里，突然意识到一件事：阴阳是母女……
+        </div>
+      </div>
+
+      <div class="preface-full" id="prefaceFull">
+        <p>三月份的时候，我在一条评论区里，突然意识到一件事：阴阳是母女。</p>
+
+        <p>那条评论区里没有人在讨论这个。是我自己读着读着，脑子里冒出来的。我当时把它写了下来，发了一条笔记。接着又发了一条：道德经是“姥子”——女字旁的那个姥。</p>
+
+        <p>两条内容的争议都很大。我收到了一些留言，有人追问，有人质疑，有人想继续看。</p>
+
+        <p>但也有人在问同一个问题：在哪里能看更多？</p>
+
+        <p>那时候我还没开始写。我只是隐约觉得，有一个没被认真问过的问题，藏在那些追问和质疑背后——如果《德道经》里那些反复出现的意象（玄牝、谷神、婴儿、柔弱、不争）不是修辞，而是来自某种具体的身体经验呢？如果“母”不是一个比喻，而是一个从身体里长出来的参照系呢？</p>
+
+        <p>我没有答案。但我想试试。</p>
+
+        <p>我花了五个月时间，一章一章地写了下去。帛书《德道经》共八十一章。我每两天读一章，写一章。从德经到道经，从“上德不德”到“为而不争”。初稿写完的时候，数了数——六十万字。</p>
+
+        <p>这是一个很大的数字，但对写作来说，它首先意味着另一个更小的数字：两天一章。一百六十二天写完八十一章。这种匀速的推进不是为了节省思考，而是为了不让思考被形式的问题卡住。</p>
+
+        <p>所以我没有给每一章寻找不同的结构。我的格式是固定的：先抄帛书原文，再写朱邦復先生的解读，最后叠上我自己的视角——从身体经验出发的重新理解。</p>
+
+        <p>这种重复是有意的。我想先完成，再完美。</p>
+
+        <hr class="divider-line" />
+
+        <p>朱邦復这个名字，在《道德经》的读者群体里并不算广为人知。</p>
+
+        <p>他是中文电脑的发明者，是程序员，是人工智能领域最早的探索者之一。他的《老子止笑》是在我读过的所有解读里，和我最契合的一个版本。没有传统注疏里常见的性别预设，也没有那种从“圣王”立场出发的教化语气。他把《德道经》当作一套自然系统来读——冷静、抽象、不抒情。</p>
+
+        <p>而我做的，是叠加另一层视角——极端的具象。</p>
+
+        <p>我没有生过孩子。我写这些的参照，来自一只猫。</p>
+
+        <p>我养了它五年。它生了好几胎，我帮它接生，帮它把小奶猫养大，观察它怎么喂、怎么护、怎么放。在那些过程里，我第一次体会到一种不需要语言的知识：身体在回应身体，体温在调节另一个生命的体温，呼吸在同步另一个生命的呼吸。</p>
+
+        <p>朱邦復站在抽象的一端。猫站在身体的一端。我站在中间，做了一件事：让这两端的两种路径，指向同一部经典。</p>
+
+        <hr class="divider-line" />
+
+        <p>写到后半段的时候，我发现自己被另一种力量推着走。</p>
+
+        <p>因为我开始看见自己的阿婆。</p>
+
+        <p>她已经走了。她叫梁顺华。在我用母亲经验逐章解读《德道经》的过程中，那个“母亲”的形象变得越来越具体，越来越近——直到我看见的不再是一个抽象的历史中的“母体意象”，而是具体的人：我的阿婆，我的母亲，以及无数在历史中沉默的母亲。</p>
+
+        <p>她们的身体经验从未被记录。她们的分娩、哺乳、守护、放手、衰老——这些构成了一个个完整的生命循环——却没有进入任何一部“经典”的注脚。</p>
+
+        <p>我意识到，我在做的这件事，或许不只是为了读懂一部书。</p>
+
+        <p>这本书里有一句话，我以前一直没太理解：“功遂身退，天之道也。”写完八十一章回头看，我才明白——它不是哲学判断，是生理事实。</p>
+
+        <p>从怀孕开始，身体就在不断地“功遂身退”：分娩后子宫收缩回去，哺乳后乳房回归常态，孩子长大后母亲的角色逐渐退场，最后是更年期的彻底退出。每一次退，都是一次“功遂”——完成了，就退了，不占位，不留恋。</p>
+
+        <p>这不只是一段个人心理历程，它是一个完整的身体生命史。而《德道经》的八十一章，其实是在不同层面上反复叙述这件事——从“无名”到“有名”，从“得一”到“分离”，从“柔弱”到“衰老”，从“成为母亲”到“回归无名”。</p>
+
+        <p>它写的可能不是宇宙论，不是政治哲学，不是处世谋略。</p>
+
+        <p>它写的是一种生命经验，这种经验长期未被命名，因为它主要由女性的身体承担。</p>
+
+        <hr class="divider-line" />
+
+        <p>所以，我把存放这些文字的地方，叫做“顺华堂”。</p>
+
+        <p class="shunhua">不是品牌名，不是工作室。是阿婆的名字。梁顺华。顺从的顺，中华的华。我想让她的名字，成为一个房间的名字。这个房间里放的是一份被重新打开的、关于母亲一生的记录。</p>
+
+        <p>顺华堂目前只是一个网站。简陋、安静、需要密码才能进入。我暂时不打算完全公开它。因为它还粗糙，还在修改，而且它从来就不是为了“发表”而写的——它是我为了梳理清楚自己的疑问而写的东西。我可以分享它，但不想被它绑架。</p>
+
+        <p>这也是为什么我把钥匙做成实物。</p>
+
+        <p>手写明信片，手写一句帛书原文，盖一枚金色的印章。它是一张卡片、一件信物，也是一把钥匙——通过它，可以进入那个存放着六十万字的房间。</p>
+
+        <p>这个方式或许有些迂回，但在今天，要在公共平台上持续讨论一个不被算法喜欢的、带有身体经验视角的话题，我确实暂时想不到更好的办法。</p>
+
+        <hr class="divider-line" />
+
+        <p>我会把这部解读继续写下去——不是重写，是用另一种方式重新读：不再是按章节顺序，而是按“母亲的一生”这条线索——从怀孕、分娩、喂养、陪伴、放手、送别，到成为祖母、回归无名。</p>
+
+        <p>我还会做更多别的事——比如访谈、比如更直观的呈现方式、比如一个交互式的空间。</p>
+
+        <p>我会把它一点一点地补全、打磨、让它长成它该有的样子。</p>
+
+        <p>阿婆已经不在了。但她的名字，会成为这一切的起点。</p>
+      </div>
+    </section>
 
     <!-- ===== 区块一：米饭视角（付费入口） ===== -->
     <section class="section">
@@ -1258,7 +1436,17 @@ const STORAGE_KEY_VERIFIED = 'momisgod_unlocked';
 const STORAGE_KEY_LAST_CHAPTER = 'momisgod_last_chapter';
 
 // ============================================================
-// 1. 验证逻辑
+// 1. 序言展开/收起
+// ============================================================
+document.getElementById('prefaceToggle').addEventListener('click', function() {
+  const full = document.getElementById('prefaceFull');
+  const arrow = document.getElementById('prefaceArrow');
+  full.classList.toggle('show');
+  arrow.classList.toggle('open');
+});
+
+// ============================================================
+// 2. 验证逻辑
 // ============================================================
 function setUnlockedState(isUnlocked) {
   if (isUnlocked) {
@@ -1300,7 +1488,7 @@ document.getElementById('enterReaderBtn').addEventListener('click', function() {
 });
 
 // ============================================================
-// 2. 阅读器切换
+// 3. 阅读器切换
 // ============================================================
 function openReader() {
   document.getElementById('public-content').classList.add('hidden');
@@ -1320,7 +1508,7 @@ document.getElementById('backToHomeBtn')?.addEventListener('click', closeReader)
 document.getElementById('backToHomeBtnBottom')?.addEventListener('click', closeReader);
 
 // ============================================================
-// 3. 阅读器核心
+// 4. 阅读器核心
 // ============================================================
 let currentBook = null;
 let currentChapterId = null;
@@ -1422,7 +1610,7 @@ document.addEventListener('keydown', (e) => {
 });
 
 // ============================================================
-// 4. 移动端侧边栏控制
+// 5. 移动端侧边栏控制
 // ============================================================
 (function() {
   var hamburgerBtn = document.getElementById('hamburgerBtn');
@@ -1486,14 +1674,14 @@ document.addEventListener('keydown', (e) => {
 })();
 
 // ============================================================
-// 5. 页面启动检查
+// 6. 页面启动检查
 // ============================================================
 if (sessionStorage.getItem(STORAGE_KEY_VERIFIED) === 'true') {
   setUnlockedState(true);
 }
 
 // ============================================================
-// 6. 微信弹窗
+// 7. 微信弹窗
 // ============================================================
 (function() {
   const modal = document.getElementById('wechatModal');
@@ -1543,7 +1731,7 @@ if (sessionStorage.getItem(STORAGE_KEY_VERIFIED) === 'true') {
 })();
 
 // ============================================================
-// 7. 朱邦復简介弹窗
+// 8. 朱邦復简介弹窗
 // ============================================================
 (function() {
   var trigger2 = document.getElementById('zhubangfuTrigger2');
